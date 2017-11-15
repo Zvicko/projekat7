@@ -1,0 +1,4 @@
+C:\Users\Admin\Desktop\VEZBE 2016\Vezba_4\Vezba_4\Vezba_4\ServiceContracts\bin\x64\Debug\ServiceContracts.dll
+C:\Users\Admin\Desktop\VEZBE 2016\Vezba_4\Vezba_4\Vezba_4\ServiceContracts\bin\x64\Debug\ServiceContracts.pdb
+C:\Users\Admin\Desktop\VEZBE 2016\Vezba_4\Vezba_4\Vezba_4\ServiceContracts\obj\x64\Debug\ServiceContracts.dll
+C:\Users\Admin\Desktop\VEZBE 2016\Vezba_4\Vezba_4\Vezba_4\ServiceContracts\obj\x64\Debug\ServiceContracts.pdb

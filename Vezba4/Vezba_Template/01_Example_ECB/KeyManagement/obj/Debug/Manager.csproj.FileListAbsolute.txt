@@ -1,0 +1,5 @@
+C:\Users\Administrator.DOMAINADMINS0\Desktop\sigurnost i bezbednost\Vezba4\Vezba_Template\01_Example_ECB\KeyManagement\bin\Debug\KeyManagement.dll
+C:\Users\Administrator.DOMAINADMINS0\Desktop\sigurnost i bezbednost\Vezba4\Vezba_Template\01_Example_ECB\KeyManagement\bin\Debug\KeyManagement.pdb
+C:\Users\Administrator.DOMAINADMINS0\Desktop\sigurnost i bezbednost\Vezba4\Vezba_Template\01_Example_ECB\KeyManagement\obj\Debug\KeyManagement.dll
+C:\Users\Administrator.DOMAINADMINS0\Desktop\sigurnost i bezbednost\Vezba4\Vezba_Template\01_Example_ECB\KeyManagement\obj\Debug\KeyManagement.pdb
+C:\Users\Administrator.DOMAINADMINS0\Desktop\sigurnost i bezbednost\Vezba4\Vezba_Template\01_Example_ECB\KeyManagement\obj\Debug\Manager.csprojResolveAssemblyReference.cache

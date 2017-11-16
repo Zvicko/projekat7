@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ServiceModel;
 
 namespace Common
 {
-    public class Class1
+    [ServiceContract]
+    public interface ISubscribe
     {
+
+        [OperationContract]
+        void Subscribe(string topicName);
+
     }
 }

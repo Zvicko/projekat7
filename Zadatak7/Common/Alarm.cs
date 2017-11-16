@@ -39,17 +39,16 @@ namespace Common
 
         }
 
-       public int Rizik
-       {
-            get
-            {
-                return rizik;
-            }
-            set
-            {
-                rizik = value;
-            }
-       }
-
+        public int Rizik
+        {
+             get
+             {
+                 return rizik;
+             }
+             set
+             {
+                 rizik = value;
+             }
+        }
     }
 }

@@ -12,12 +12,12 @@ namespace Client
         static void Main(string[] args)
         {
             NetTcpBinding binding = new NetTcpBinding();
-            //string address = "net.tcp://localhost:9999/SecurityService";
+            string address = "net.tcp://localhost:9999/PubSubService";
 
-            /*using (ClientProxy proxy = new ClientProxy(binding, address))
+            using (ClientProxy proxy = new ClientProxy(binding, address))
             {
 
-            }*/
+            }
 
             Console.ReadLine();
         }

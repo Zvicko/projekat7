@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using Common;
 
 namespace PubSubEngine
 {
@@ -13,21 +14,22 @@ namespace PubSubEngine
         static void Main(string[] args)
         {
             NetTcpBinding binding = new NetTcpBinding();
-            //string address = "net.tcp://localhost:9999/SecurityService";
+            string address = "net.tcp://localhost:9999/PubSubService";
 
-            //ServiceHost host = new ServiceHost(typeof(SecurityService));
-            //host.AddServiceEndpoint(typeof(ISecurityService), binding, address);
+            ServiceHost host = new ServiceHost(typeof(PubSubService));
+            host.AddServiceEndpoint(typeof(Interfejs), binding, address);
+           
 
-            //host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
-            //host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+            host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
 
-            //host.Open();
+            host.Open();
 
             Console.WriteLine("PubSubEngine service has been started.\n");
             Console.WriteLine("Press ENTER to stop the service...");
 
             Console.ReadLine();
-            //host.Close();
+            host.Close();
         }
     }
 }

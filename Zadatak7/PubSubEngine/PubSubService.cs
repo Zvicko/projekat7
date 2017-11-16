@@ -11,7 +11,7 @@ namespace PubSubEngine
     {
         public void Publish(Alarm alarm, string topicName)
         {
-            throw new NotImplementedException();
+            string s;
         }
 
         public void Subscribe(string topicName)

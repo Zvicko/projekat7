@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.ServiceModel;
+using System.Runtime.Serialization;
 namespace Common
 {
+   
     public class Alarm
     {
+        
         private DateTime izgenerisan;
         private string poruka;
         private int rizik;
-
+      
         public DateTime Izgenerisan
         {
             get
@@ -24,7 +27,7 @@ namespace Common
             }
 
         }
-
+        
         public string Poruka
         {
             get
@@ -38,7 +41,7 @@ namespace Common
             }
 
         }
-
+       
         public int Rizik
         {
              get

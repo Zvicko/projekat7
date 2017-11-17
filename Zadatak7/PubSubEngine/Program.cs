@@ -14,11 +14,17 @@ namespace PubSubEngine
         static void Main(string[] args)
         {
             NetTcpBinding binding = new NetTcpBinding();
-            string address = "net.tcp://localhost:9999/PubSubService";
+            string address = "net.tcp://localhost:9999/PublisherService";
 
-            ServiceHost host = new ServiceHost(typeof(PubSubService));
-            host.AddServiceEndpoint(typeof(Interfejs), binding, address);
-           
+            //ServiceHost host = new ServiceHost(typeof(PubSubService));
+            //host.AddServiceEndpoint(typeof(Interfejs), binding, address);
+
+            PublisherService p = new PublisherService(); // da bi inicijalizovao listu
+
+
+            ServiceHost host = new ServiceHost(typeof(PublisherService));
+            host.AddServiceEndpoint(typeof(IPublish), binding, address);
+
 
             host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
             host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });

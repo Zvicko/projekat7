@@ -8,23 +8,24 @@ using Common;
 
 namespace Subscriber
 {
-    public class SubscriberProxy : ChannelFactory<Interfejs>, Interfejs, IDisposable
+    public class SubscriberProxy : ChannelFactory<ISubscribe>, ISubscribe, IDisposable
     {
-        Interfejs factory;
+        ISubscribe factory;
 
         public SubscriberProxy(NetTcpBinding binding, string address) : base(binding, address)
         {
+            factory = this.CreateChannel();
         }
 
-        public void AddUser(string username, string password)
+        public void Subscribe(string topicName)
         {
             try
             {
-                factory.AddUser(username, password);
+                factory.Subscribe(topicName);
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error: {0}", e.Message);
+                Console.WriteLine($"Error: {e.Message}");
             }
         }
 
@@ -33,21 +34,11 @@ namespace Subscriber
 
         }
 
-        public void Publish(Alarm alarm, string topicName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveUser(string username)
-        {
-            throw new NotImplementedException();
-        }
+       
+        
 
 
-        public void Subscribe(string topicName)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
 

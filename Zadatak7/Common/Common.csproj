@@ -45,6 +45,7 @@
     <Compile Include="Alarm.cs" />
     <Compile Include="Interfejs.cs" />
     <Compile Include="IPublish.cs" />
+    <Compile Include="ISubscribe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Topic.cs" />
   </ItemGroup>

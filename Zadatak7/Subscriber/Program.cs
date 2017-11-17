@@ -12,11 +12,11 @@ namespace Subscriber
         static void Main(string[] args)
         {
             NetTcpBinding binding = new NetTcpBinding();
-            string address = "net.tcp://localhost:9999/PubSubService";
+            string address = "net.tcp://localhost:1000/SubscriberService";
 
             using (SubscriberProxy proxy = new SubscriberProxy(binding, address))
             {
-
+                proxy.Subscribe("burek");
             }
 
             Console.ReadLine();

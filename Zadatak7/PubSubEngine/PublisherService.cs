@@ -21,7 +21,6 @@ namespace PubSubEngine
 
         public void Publish(Topic topic)
         {
-
             ListTopic.Add(topic);
         }
     }

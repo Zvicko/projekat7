@@ -12,6 +12,5 @@ namespace Common
     {
         [OperationContract]
         void Subscribe(string topicName);
-
     }
 }

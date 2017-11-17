@@ -28,8 +28,10 @@ namespace Client
             }
         }
 
+        public void Dispose()
+        {
 
-
+        }
 
         /* Interfejs factory;
          public ClientProxy(NetTcpBinding binding, string address) : base(binding, address)
@@ -46,11 +48,6 @@ namespace Client
              {
                  Console.WriteLine("Error: {0}", e.Message);
              }
-         }
-
-         public void Dispose()
-         {
-
          }
 
          public void Publish(Alarm alarm, string topicName)

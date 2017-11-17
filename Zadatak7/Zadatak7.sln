@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PubSubEngine", "PubSubEngine\PubSubEngine.csproj", "{A45B1120-DC53-4617-935E-A6F173769199}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{3E900686-6F1E-47A0-A7BC-1686486CC3AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Publisher", "Client\Publisher.csproj", "{3E900686-6F1E-47A0-A7BC-1686486CC3AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{F793F4CA-CC0B-41DB-A190-AF6C79A0A69B}"
 EndProject

@@ -28,7 +28,21 @@ namespace Subscriber
                 Console.WriteLine($"Error: {e.Message}");
             }
         }
+        public List<Topic> Read()
+        {
+            List<Topic> list = new List<Topic>();
+            try
+            {
+                list = factory.Read();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
 
+            list.ForEach(t => Console.WriteLine($"{t.NazivTopica}\n{t.Al.Izgenerisan}\n{t.Al.Poruka}\n{t.Al.Rizik}"));
+            return list;
+        }
         public void Dispose()
         {
 

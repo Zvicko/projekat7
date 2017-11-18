@@ -16,6 +16,7 @@ namespace Subscriber
 
             using (SubscriberProxy proxy = new SubscriberProxy(binding, address))
             {
+                proxy.Read();
                 proxy.Subscribe("burek");
             }
 

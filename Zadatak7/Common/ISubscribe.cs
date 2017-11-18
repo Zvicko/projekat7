@@ -12,5 +12,7 @@ namespace Common
     {
         [OperationContract]
         void Subscribe(string topicName);
+        [OperationContract]
+        List<Topic> Read();
     }
 }

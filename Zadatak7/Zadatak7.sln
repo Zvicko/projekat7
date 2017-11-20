@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PubSubEngine", "PubSubEngine\PubSubEngine.csproj", "{A45B1120-DC53-4617-935E-A6F173769199}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientWPF", "ClientWPF\ClientWPF.csproj", "{59FB1F60-1E12-46C8-9014-6FE43174C194}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SysLog", "SysLog\SysLog.csproj", "{463361E0-BA67-4781-8B3D-745FCE19E75D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manager", "Manager\Manager.csproj", "{4930FB6A-BC02-490D-AB41-911FD1C90F04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{463361E0-BA67-4781-8B3D-745FCE19E75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{463361E0-BA67-4781-8B3D-745FCE19E75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{463361E0-BA67-4781-8B3D-745FCE19E75D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4930FB6A-BC02-490D-AB41-911FD1C90F04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4930FB6A-BC02-490D-AB41-911FD1C90F04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4930FB6A-BC02-490D-AB41-911FD1C90F04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4930FB6A-BC02-490D-AB41-911FD1C90F04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

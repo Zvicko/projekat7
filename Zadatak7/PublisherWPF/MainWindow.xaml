@@ -5,8 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PublisherWPF"
         mc:Ignorable="d"
-        Title="Publisher" Height="350" Width="525">
+        Title="Publisher" Height="350" Width="620">
     <Grid>
-        
+        <Label x:Name="nazivTopica" Content="Unesite ime topica :" HorizontalAlignment="Left" Height="26" Margin="10,39,0,0" VerticalAlignment="Top" Width="127"/>
+        <TextBox x:Name="textBoxTopic" HorizontalAlignment="Left" Height="20" Margin="149,39,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="226"/>
+        <Label x:Name="unetiRizik" Content="Rizik :" HorizontalAlignment="Left" Height="26" Margin="16,82,0,0" VerticalAlignment="Top" Width="107"/>
+        <TextBox x:Name="textBoxRizik" HorizontalAlignment="Left" Height="19" Margin="149,89,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="226"/>
+        <Label x:Name="labelaTopicNevalidan" Foreground="Red"  Content="" HorizontalAlignment="Left" Height="26" Margin="394,39,0,0" VerticalAlignment="Top" Width="196"/>
+        <Label x:Name="labelaTopicRizik"  Foreground="Red" FontSize="9" Content=""  HorizontalAlignment="Left" Height="32" Margin="394,76,0,0" VerticalAlignment="Top" Width="196" />
+        <Button x:Name="dugme" Content="Dodaj Topic" HorizontalAlignment="Left" Height="31" Margin="31,149,0,0" VerticalAlignment="Top" Width="92" Click="dugme_Click"/>
+        <Label x:Name="labelaUspesno" FontSize="30" Foreground="Green" Content="" HorizontalAlignment="Left" Height="57" Margin="43,220,0,0" VerticalAlignment="Top" Width="365"/>
+
     </Grid>
 </Window>

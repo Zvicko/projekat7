@@ -22,26 +22,50 @@ namespace PublisherWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        Topic topic = new Topic();
+        PublisherProxy proxy = null;
         public MainWindow()
         {
             InitializeComponent();
-
+            
             NetTcpBinding binding = new NetTcpBinding();
             string address = "net.tcp://localhost:9999/PublisherService";
-            Topic topic = new Topic();
+
+
+            proxy = new PublisherProxy(binding, address);
+           
+        }
+
+        private void dugme_Click(object sender, RoutedEventArgs e)
+        {
+            labelaUspesno.Content = "";
             topic.Al = new Alarm();
-
-            using (PublisherProxy proxy = new PublisherProxy(binding, address))
+            topic.NazivTopica = textBoxTopic.Text.Trim();
+            int temp;
+            if (Int32.TryParse(textBoxRizik.Text.Trim(), out temp))
             {
-
-                Console.WriteLine("Unesite naziv topic-a:");
-                topic.NazivTopica = Console.ReadLine();
-                topic.Al.Poruka = "poruka";
-                topic.Al.Rizik = 5;
-                topic.Al.Izgenerisan = DateTime.Now;
-                proxy.Publish(topic);
+                if (temp < 1 || temp > 100)
+                {
+                    labelaTopicRizik.Content = "Rizik nije u opsegu od 1 do 100!";
+                }
+                else
+                {
+                    topic.Al.Rizik = temp;
+                    topic.Al.Izgenerisan = DateTime.Now;
+                    topic.Al.Poruka = "opasno";
+                    proxy.Publish(topic);
+                    textBoxRizik.Text = "";
+                    textBoxTopic.Text = "";
+                    labelaUspesno.Content = "Topic je uspesno dodat!";
+                    
+                }
+            }
+            else
+            {
+                labelaTopicRizik.Content = "Uneta je nebrojevna vrednost za rizik!";
 
             }
+
 
         }
     }

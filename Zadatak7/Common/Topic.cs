@@ -20,6 +20,7 @@ namespace Common
             set { nazivTopica = value; }
         }
         [DataMember()]
+       
         public Alarm Al
         {
             get { return al; }

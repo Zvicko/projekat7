@@ -26,7 +26,7 @@ namespace SubscriberWPF
         public MainWindow()
         {
             InitializeComponent();
-
+            string[] rizici = { "nema rizika", "blagi rizik", "rizicno", "veoma rizicno" };
             NetTcpBinding binding = new NetTcpBinding();
             string address = "net.tcp://localhost:1000/SubscriberService";
 
@@ -46,7 +46,7 @@ namespace SubscriberWPF
 
             host1.Open();
 
-
+            comboBox.ItemsSource = rizici;
             using (SubscriberProxy proxy = new SubscriberProxy(binding, address))
             {
                 proxy.Read();

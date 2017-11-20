@@ -22,6 +22,8 @@ namespace PubSubEngine
         public void Publish(Topic topic)
         {
             ListTopic.Add(topic);
+
+            ListTopic.ForEach(t => Console.WriteLine($"{t.NazivTopica}\n{t.Al.Izgenerisan}\n{t.Al.Poruka}\n{t.Al.Rizik}\n"));
         }
     }
 }

@@ -35,6 +35,9 @@ namespace PubSubEngine
             Console.WriteLine("PubSubEngine service has been started.\n");
             Console.WriteLine("Press ENTER to stop the service...");
 
+            
+
+
             Console.ReadLine();
             host1.Close();
             host2.Close();

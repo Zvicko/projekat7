@@ -48,8 +48,19 @@
     <Compile Include="IPublish.cs" />
     <Compile Include="ISubscribe.cs" />
     <Compile Include="ISyslog.cs" />
+    <Compile Include="Poruke.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Poruke.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Topic.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Poruke.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Poruke.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

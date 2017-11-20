@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,9 +52,12 @@ namespace PublisherWPF
                 }
                 else
                 {
+                    string poruka = proveraRizika(temp);
+                    ResourceManager rm = new ResourceManager("Poruke", Assembly.GetExecutingAssembly());
                     topic.Al.Rizik = temp;
                     topic.Al.Izgenerisan = DateTime.Now;
-                    topic.Al.Poruka = "opasno";
+
+                    topic.Al.Poruka = Poruke.ResourceManager.GetString(poruka);
                     proxy.Publish(topic);
                     textBoxRizik.Text = "";
                     textBoxTopic.Text = "";
@@ -68,5 +73,23 @@ namespace PublisherWPF
 
 
         }
+
+
+        private string proveraRizika(int temp)
+        {
+
+            if (temp < 11)
+                return "nemaRizika";
+            else if (temp >= 11 && temp < 30)
+                return "niskiRizik";
+            else if (temp >= 31 && temp < 71)
+                return "srednji rizik";
+            else if (temp >= 71)
+                return "visokiRizik";
+            else
+                return null;
+        }
+
+
     }
 }

@@ -14,10 +14,18 @@ namespace Manager
         public override void Validate(X509Certificate2 certificate)
         {
             X509Certificate2 cert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, Formatter.ParseName(WindowsIdentity.GetCurrent().Name));
-            
+
             if (!certificate.Issuer.Equals(cert.Issuer))
             {
-                throw new Exception("Certificate is not from the valid issuer.");
+                Logger.AnnotateEvent("Authentication failed. Certificate is not from a valid issuer.\n");
+
+                throw new Exception("Certificate is not from a valid issuer.\n");
+            }
+            else if (certificate.NotAfter <= DateTime.Now)
+            {
+                Logger.AnnotateEvent("Authentication failed. Certificate has expired.\n");
+
+                throw new Exception("Certificate has expired.\n");
             }
         }
     }

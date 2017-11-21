@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using Common;
+using Manager;
 
 namespace PubSubEngine
 {
@@ -29,14 +30,13 @@ namespace PubSubEngine
             host2.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
             host2.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
 
+            Logger logger = new Logger();
+
             host1.Open();
             host2.Open();
 
             Console.WriteLine("PubSubEngine service has been started.\n");
             Console.WriteLine("Press ENTER to stop the service...");
-
-            
-
 
             Console.ReadLine();
             host1.Close();

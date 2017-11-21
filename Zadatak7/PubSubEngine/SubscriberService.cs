@@ -17,15 +17,11 @@ namespace PubSubEngine
 
          }
          
-      
-
         public void Subscribe(string topicName)
         {
-            bool exit = false;
+            //bool exit = false;
             
             Console.WriteLine("\nPokrenut Subscriber. Topic name: {0}", topicName);
-            
-      //  Console.WriteLine("\nSubscriber se odjavio sa topica.");
         }
     }
 }

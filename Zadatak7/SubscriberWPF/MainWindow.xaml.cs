@@ -25,7 +25,6 @@ namespace SubscriberWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-
         public static ObservableCollection<Alarm> al
         {
             get;
@@ -41,17 +40,16 @@ namespace SubscriberWPF
         private static SubscriberProxy proxy = null; // mozda ne mora da bude static
         public MainWindow()
         {
-
             InitializeComponent();
             al = new ObservableCollection<Alarm>();
             tempTop = new List<Topic>();
             DataContext = this;
             string[] rizici = { "nema rizika", "niski rizik", "srednji rizik", "visoki rizik" };
-           NetTcpBinding binding = new NetTcpBinding();
-           string address = "net.tcp://localhost:1000/SubscriberService";
+            NetTcpBinding binding = new NetTcpBinding();
+            string address = "net.tcp://localhost:1000/SubscriberService";
 
             NetTcpBinding bindingSysLog = new NetTcpBinding();
-            string addressSyslog = "net.tcp://localhost:8477/SysLog";
+            //string addressSyslog = "net.tcp://localhost:8477/SysLog";
 
 
             NetTcpBinding bindingClient = new NetTcpBinding();
@@ -69,21 +67,14 @@ namespace SubscriberWPF
             comboBox.ItemsSource = rizici;
             proxy = new SubscriberProxy(binding, address);
 
-
-         
-            
-
-
         }
         private void close(object sender, RoutedEventArgs e)
         {
-            this.Close();
-           
+            this.Close(); 
         }
 
         private void dugmeOsvezi_Click(object sender, RoutedEventArgs e)
         {
-
             var items = al.ToList();
 
             foreach (var item in items)
@@ -91,18 +82,13 @@ namespace SubscriberWPF
                 al.Remove(item);
             }
 
-
             tempTop = proxy.Read();
 
             foreach (Topic t in tempTop)
             {
 
                 al.Add(t.Al);
-            }
-            
-
-                
-           
+            }                    
         }
     }
 }

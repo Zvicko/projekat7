@@ -31,20 +31,20 @@ namespace SubscriberWPF
             set;
         }
 
-        
-        
+
+
         public static List<Topic> tempTop
         {
             get;
             set;
         }
-        
+
         private static SubscriberProxy proxy = null; // mozda ne mora da bude static
         private readonly BackgroundWorker worker = new BackgroundWorker();
-        
+
         public MainWindow()
         {
-            
+
             InitializeComponent();
             //worker.DoWork += worker_DoWork;
             object _lock = new object();
@@ -75,7 +75,46 @@ namespace SubscriberWPF
 
             comboBox.ItemsSource = rizici;
             proxy = new SubscriberProxy(binding, address);
+        }
+        private void Potvrdi_click(object sender, RoutedEventArgs e)
+        {
+            string[] rizici = { "nema rizika", "niski rizik", "srednji rizik", "visoki rizik" };
+            string s = comboBox.SelectedValue.ToString();
+        
+            int pom = 1;
 
+            if (s == "nema rizika")
+                pom = 1;
+            if (s == "niski rizik")
+                pom = 2;
+            if (s == "srednji rizik")
+                pom = 3;
+            if (s == "visoki rizik")
+                pom = 4;
+
+            al.Clear();
+            foreach(Topic t in tempTop)
+            {
+                if (pom == 1)
+                {
+                    if (t.Al.Rizik > 0 && t.Al.Rizik < 11)
+                        al.Add(t.Al);
+                }else if (pom == 2)
+                {
+                    if (t.Al.Rizik >= 11 && t.Al.Rizik < 31)
+                        al.Add(t.Al);
+                }else if (pom == 3)
+                {
+                    if (t.Al.Rizik >= 31 && t.Al.Rizik < 71)
+                        al.Add(t.Al);
+                }else if (pom == 4)
+                {
+                    if (t.Al.Rizik >= 71 && t.Al.Rizik <= 100)
+                        al.Add(t.Al);
+                }
+            }
+        }
+            /*
             //worker.RunWorkerAsync();
             Thread thread = new Thread(new ThreadStart(this.worker_DoWork));
             thread.IsBackground = true;
@@ -106,7 +145,7 @@ namespace SubscriberWPF
                 Thread.Sleep(6000);
             }
         }
-
+        */
         private void close(object sender, RoutedEventArgs e)
         {
             this.Close(); 
@@ -114,7 +153,7 @@ namespace SubscriberWPF
 
         private void dugmeOsvezi_Click(object sender, RoutedEventArgs e)
         {
-           /* var items = al.ToList();
+           var items = al.ToList();
 
             foreach (var item in items)
             {
@@ -127,7 +166,7 @@ namespace SubscriberWPF
             {
 
                 al.Add(t.Al);
-            }   */                 
+            }   
         }
     }
 }

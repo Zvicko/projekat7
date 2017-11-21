@@ -17,7 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.ComponentModel;
 namespace SubscriberWPF
 {
     /// <summary>
@@ -31,6 +31,8 @@ namespace SubscriberWPF
             set;
         }
 
+        
+        
         public static List<Topic> tempTop
         {
             get;
@@ -38,10 +40,17 @@ namespace SubscriberWPF
         }
         
         private static SubscriberProxy proxy = null; // mozda ne mora da bude static
+        private readonly BackgroundWorker worker = new BackgroundWorker();
+        
         public MainWindow()
         {
+            
             InitializeComponent();
+            //worker.DoWork += worker_DoWork;
+            object _lock = new object();
             al = new ObservableCollection<Alarm>();
+            BindingOperations.EnableCollectionSynchronization(al, _lock);
+            //al = new ObservableCollection<Alarm>();
             tempTop = new List<Topic>();
             DataContext = this;
             string[] rizici = { "nema rizika", "niski rizik", "srednji rizik", "visoki rizik" };
@@ -67,7 +76,37 @@ namespace SubscriberWPF
             comboBox.ItemsSource = rizici;
             proxy = new SubscriberProxy(binding, address);
 
+            //worker.RunWorkerAsync();
+            Thread thread = new Thread(new ThreadStart(this.worker_DoWork));
+            thread.IsBackground = true;
+            //thread.Name = "My Worker.";
+            thread.Start();
+
         }
+
+        private void worker_DoWork()
+        {
+            while (true)
+            {
+                var items = al.ToList();
+
+                foreach (var item in items)
+                {
+                    al.Remove(item);
+                }
+
+                tempTop = proxy.Read();
+
+                foreach (Topic t in tempTop)
+                {
+
+                    al.Add(t.Al);
+                }
+                //dataGrid.Items.Refresh();
+                Thread.Sleep(6000);
+            }
+        }
+
         private void close(object sender, RoutedEventArgs e)
         {
             this.Close(); 
@@ -75,7 +114,7 @@ namespace SubscriberWPF
 
         private void dugmeOsvezi_Click(object sender, RoutedEventArgs e)
         {
-            var items = al.ToList();
+           /* var items = al.ToList();
 
             foreach (var item in items)
             {
@@ -88,7 +127,7 @@ namespace SubscriberWPF
             {
 
                 al.Add(t.Al);
-            }                    
+            }   */                 
         }
     }
 }

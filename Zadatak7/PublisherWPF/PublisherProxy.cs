@@ -32,38 +32,5 @@ namespace PublisherWPF
         {
 
         }
-
-        /* Interfejs factory;
-         public ClientProxy(NetTcpBinding binding, string address) : base(binding, address)
-         {
-         }
-
-         public void AddUser(string username, string password)
-         {
-             try
-             {
-                 factory.AddUser(username, password);
-             }
-             catch (Exception e)
-             {
-                 Console.WriteLine("Error: {0}", e.Message);
-             }
-         }
-
-         public void Publish(Alarm alarm, string topicName)
-         {
-
-         }
-
-         public void RemoveUser(string username)
-         {
-             throw new NotImplementedException();
-         }
-
-
-         public void Subscribe(string topicName)
-         {
-             throw new NotImplementedException();
-         }*/
     }
 }

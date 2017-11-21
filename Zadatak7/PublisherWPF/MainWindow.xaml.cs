@@ -80,7 +80,7 @@ namespace PublisherWPF
 
             if (temp < 11)
                 return "nemaRizika";
-            else if (temp >= 11 && temp < 30)
+            else if (temp >= 11 && temp < 31)
                 return "niskiRizik";
             else if (temp >= 31 && temp < 71)
                 return "srednjiRizik";

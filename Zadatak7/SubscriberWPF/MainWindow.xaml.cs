@@ -1,10 +1,12 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,12 +25,30 @@ namespace SubscriberWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        public static ObservableCollection<Alarm> al
+        {
+            get;
+            set;
+        }
+
+        public static List<Topic> tempTop
+        {
+            get;
+            set;
+        }
+        
+        private static SubscriberProxy proxy = null; // mozda ne mora da bude static
         public MainWindow()
         {
+
             InitializeComponent();
-            string[] rizici = { "nema rizika", "blagi rizik", "rizicno", "veoma rizicno" };
-            NetTcpBinding binding = new NetTcpBinding();
-            string address = "net.tcp://localhost:1000/SubscriberService";
+            al = new ObservableCollection<Alarm>();
+            tempTop = new List<Topic>();
+            DataContext = this;
+            string[] rizici = { "nema rizika", "niski rizik", "srednji rizik", "visoki rizik" };
+           NetTcpBinding binding = new NetTcpBinding();
+           string address = "net.tcp://localhost:1000/SubscriberService";
 
             NetTcpBinding bindingSysLog = new NetTcpBinding();
             string addressSyslog = "net.tcp://localhost:8477/SysLog";
@@ -47,14 +67,11 @@ namespace SubscriberWPF
             host1.Open();
 
             comboBox.ItemsSource = rizici;
-            using (SubscriberProxy proxy = new SubscriberProxy(binding, address))
-            {
-                
-                proxy.Read();
-                proxy.Subscribe("burek");
-              
+            proxy = new SubscriberProxy(binding, address);
 
-            }
+
+         
+            
 
 
         }
@@ -63,7 +80,29 @@ namespace SubscriberWPF
             this.Close();
            
         }
-      
 
+        private void dugmeOsvezi_Click(object sender, RoutedEventArgs e)
+        {
+
+            var items = al.ToList();
+
+            foreach (var item in items)
+            {
+                al.Remove(item);
+            }
+
+
+            tempTop = proxy.Read();
+
+            foreach (Topic t in tempTop)
+            {
+
+                al.Add(t.Al);
+            }
+            
+
+                
+           
+        }
     }
 }

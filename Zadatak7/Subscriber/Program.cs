@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ServiceModel;
 
 namespace Subscriber
-{
+{/*
     class Program
     {
         static void Main(string[] args)
@@ -23,4 +23,5 @@ namespace Subscriber
             Console.ReadLine();
         }
     }
+*/
 }

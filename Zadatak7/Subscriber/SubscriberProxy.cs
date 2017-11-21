@@ -8,6 +8,7 @@ using Common;
 
 namespace Subscriber
 {
+    /*
     public class SubscriberProxy : ChannelFactory<ISubscribe>, ISubscribe, IDisposable
     {
         ISubscribe factory;
@@ -28,7 +29,7 @@ namespace Subscriber
                 Console.WriteLine($"Error: {e.Message}");
             }
         }
-        public List<Topic> Read()
+        public void Read()
         {
             List<Topic> list = new List<Topic>();
             try
@@ -40,13 +41,15 @@ namespace Subscriber
                 Console.WriteLine($"Error: {e.Message}");
             }
 
-            list.ForEach(t => Console.WriteLine($"{t.NazivTopica}\n{t.Al.Izgenerisan}\n{t.Al.Poruka}\n{t.Al.Rizik}"));
-            return list;
+            //list.ForEach(t => Console.WriteLine($"{t.NazivTopica}\n{t.Al.Izgenerisan}\n{t.Al.Poruka}\n{t.Al.Rizik}"));
+            //return list;
         }
         public void Dispose()
         {
 
         } 
     }
+}
+*/
 }
 

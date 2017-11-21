@@ -40,8 +40,16 @@ namespace SubscriberWPF
                 Console.WriteLine($"Error: {e.Message}");
             }
 
-            list.ForEach(t => Console.WriteLine($"{t.NazivTopica}\n{t.Al.Izgenerisan}\n{t.Al.Poruka}\n{t.Al.Rizik}"));
+            //list.ForEach(t => Console.WriteLine($"{t.NazivTopica}\n{t.Al.Izgenerisan}\n{t.Al.Poruka}\n{t.Al.Rizik}"));
+            
+           /* foreach (Topic t in list)
+            {
+                if(!MainWindow.al.Contains(t.Al))
+                    MainWindow.al.Add(t.Al);
+            }
+            */
             return list;
+
         }
         public void Dispose()
         {

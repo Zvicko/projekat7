@@ -11,11 +11,14 @@ namespace PubSubEngine
 {
     public class SubscriberService : ISubscribe
     {
-        public List<Topic> Read()
-        {
-            return PublisherService.ListTopic;
+         public List<Topic> Read()
+         {
+             return PublisherService.ListTopic;
 
-        }
+         }
+         
+      
+
         public void Subscribe(string topicName)
         {
             bool exit = false;

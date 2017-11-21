@@ -8,10 +8,12 @@
         Title="Subscriber" Height="350" Width="525">
     <Grid>
         <Button x:Name="button" Content="Pretplati se" HorizontalAlignment="Left" Margin="311,279,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
-        <Button x:Name="button1" Content="Odjava" HorizontalAlignment="Left" Margin="432,0,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
+        <Button x:Name="button1" Content="Odjava" HorizontalAlignment="Left" Margin="432,0,0,0" VerticalAlignment="Top" Width="75" Height="30" Click="close"/>
         <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="221" Margin="190,47,0,0" VerticalAlignment="Top" Width="317"/>
         <Label x:Name="label" Content="Alarmi u zavisnosti od nivoa &#xD;&#xA;               rizika:" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="175" Height="49"/>
         <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="26,111,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="button2" Content="Potvrdi" HorizontalAlignment="Left" Margin="71,165,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="button3" Content="Refresh" HorizontalAlignment="Left" Margin="190,27,0,0" VerticalAlignment="Top" Width="75"/>
 
     </Grid>
 </Window>

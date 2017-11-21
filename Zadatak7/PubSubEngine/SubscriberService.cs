@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
+using System.Windows.Documents;
+using System.Runtime.CompilerServices;
 
 namespace PubSubEngine
 {
@@ -16,7 +18,11 @@ namespace PubSubEngine
         }
         public void Subscribe(string topicName)
         {
+            bool exit = false;
+            
             Console.WriteLine("\nPokrenut Subscriber. Topic name: {0}", topicName);
+            
+      //  Console.WriteLine("\nSubscriber se odjavio sa topica.");
         }
     }
 }

@@ -49,11 +49,21 @@ namespace SubscriberWPF
             comboBox.ItemsSource = rizici;
             using (SubscriberProxy proxy = new SubscriberProxy(binding, address))
             {
+                
                 proxy.Read();
                 proxy.Subscribe("burek");
+              
+
             }
 
 
         }
+        private void close(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+           
+        }
+      
+
     }
 }

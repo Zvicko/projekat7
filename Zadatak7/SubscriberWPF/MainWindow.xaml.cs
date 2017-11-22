@@ -25,6 +25,11 @@ namespace SubscriberWPF
             set;
         }
 
+        public static ObservableCollection<Alarm> pretplaceni
+        {
+            get;
+            set;
+        }
 
 
         public static List<Topic> tempTop
@@ -43,8 +48,11 @@ namespace SubscriberWPF
 
             InitializeComponent();
             object _lock = new object();
+            object _lock1 = new object();
             al = new ObservableCollection<Alarm>();
+            pretplaceni = new ObservableCollection<Alarm>();
             BindingOperations.EnableCollectionSynchronization(al, _lock);
+            BindingOperations.EnableCollectionSynchronization(pretplaceni, _lock1);
             //al = new ObservableCollection<Alarm>();
             tempTop = new List<Topic>();
             DataContext = this;
@@ -77,102 +85,53 @@ namespace SubscriberWPF
             thread.Start();
 
         }
-        private void Potvrdi_click(object sender, RoutedEventArgs e)
+
+        private void comboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-
-            string[] rizici = { "nema rizika", "niski rizik", "srednji rizik", "visoki rizik" };
+            pretplaceni.Clear();
             s = comboBox.SelectedValue.ToString();
-
-            pom = 1;
-
-            if (s == "nema rizika")
-                pom = 1;
-            if (s == "niski rizik")
-                pom = 2;
-            if (s == "srednji rizik")
-                pom = 3;
-            if (s == "visoki rizik")
-                pom = 4;
-
-            al.Clear();
             foreach (Topic t in tempTop)
             {
-                var obj = al.Where(a => a.Izgenerisan == t.Al.Izgenerisan).FirstOrDefault();
-                if (pom == 1)
-                {
-                    if (t.Al.Rizik > 0 && t.Al.Rizik < 11)
-                        if (obj == null)
-                            al.Add(t.Al);
-                }
-                else if (pom == 2)
-                {
-                    if (t.Al.Rizik >= 11 && t.Al.Rizik < 31)
-                        if (obj == null)
-                            al.Add(t.Al);
-                }
-                else if (pom == 3)
-                {
-                    if (t.Al.Rizik >= 31 && t.Al.Rizik < 71)
-                        if (obj == null)
-                            al.Add(t.Al);
-                }
-                else if (pom == 4)
-                {
-                    if (t.Al.Rizik >= 71 && t.Al.Rizik <= 100)
-                        if (obj == null)
-                            al.Add(t.Al);
-                }
+                var obj = pretplaceni.Where(a => a.Izgenerisan == t.Al.Izgenerisan).FirstOrDefault();
+
+                if (s == "nema rizika" && t.Al.Rizik > 0 && t.Al.Rizik < 11 && obj == null)
+                    pretplaceni.Add(t.Al);
+                else if (s == "niski rizik" && t.Al.Rizik >= 11 && t.Al.Rizik < 31 && obj == null)
+                    pretplaceni.Add(t.Al);
+                else if (s == "srednji rizik" && t.Al.Rizik >= 31 && t.Al.Rizik < 71 && obj == null)
+                    pretplaceni.Add(t.Al);
+                else if (s == "visoki rizik" && t.Al.Rizik >= 71 && t.Al.Rizik <= 100 && obj == null)
+                    pretplaceni.Add(t.Al);
             }
         }
-
-
-
-
 
         private void worker_DoWork()
         {
             while (true)
             {
                 var items = al.ToList();
-                al.Clear();
+                //al.Clear();
 
-                /*
-                foreach (var item in items)
-                {
-                    al.Remove(item);
-                }
-                */
-                tempTop = proxy.Read();
+               tempTop = proxy.Read();
 
                 foreach (Topic t in tempTop)
                 {
                     var obj = al.Where(a => a.Izgenerisan == t.Al.Izgenerisan).FirstOrDefault();
-                    if (pom == 1)
-                    {
-                        if (t.Al.Rizik > 0 && t.Al.Rizik < 11)
-                            if (obj == null)
-                                al.Add(t.Al);
-                    }
-                    else if (pom == 2)
-                    {
-                        if (t.Al.Rizik >= 11 && t.Al.Rizik < 31)
-                            if (obj == null)
-                                al.Add(t.Al);
-                    }
-                    else if (pom == 3)
-                    {
-                        if (t.Al.Rizik >= 31 && t.Al.Rizik < 71)
-                            if (obj == null)
-                                al.Add(t.Al);
-                    }
-                    else if (pom == 4)
-                    {
-                        if (t.Al.Rizik >= 71 && t.Al.Rizik <= 100)
-                            if (obj == null)
-                                al.Add(t.Al);
-                    }
+                   
+                    
+                    if (obj == null)
+                        al.Add(t.Al);
+                    if (s == "nema rizika" && t.Al.Rizik > 0 && t.Al.Rizik < 11 && obj == null)
+                        pretplaceni.Add(t.Al);
+                    else if (s == "niski rizik" && t.Al.Rizik >= 11 && t.Al.Rizik < 31 && obj == null)
+                        pretplaceni.Add(t.Al);
+                    else if (s == "srednji rizik" && t.Al.Rizik >= 31 && t.Al.Rizik < 71 && obj == null)
+                        pretplaceni.Add(t.Al);
+                    else if (s == "visoki rizik" && t.Al.Rizik >= 71 && t.Al.Rizik <= 100 && obj == null)
+                        pretplaceni.Add(t.Al);
+
                 }
-                //dataGrid.Items.Refresh();
+                
                 Thread.Sleep(6000);
             }
         }
@@ -183,32 +142,12 @@ namespace SubscriberWPF
             this.Close();
         }
 
-
-        private void dugmeOsvezi_Click(object sender, RoutedEventArgs e)
-        {
-            //var items = al.ToList();
-
-            al.Clear();
-            /* foreach (var item in items)
-             {
-                 al.Remove(item);
-             }
-             */
-            tempTop = proxy.Read();
-
-            foreach (Topic t in tempTop)
-            {
-
-                al.Add(t.Al);
-            }
-
-        }
-
+      
         private void dugmePretplatiSe_Click(object sender, RoutedEventArgs e)
         {
-            if (dataGrid.SelectedItem != null)
+            if (dataGrid2.SelectedItem != null)
             {
-                Alarm a = dataGrid.SelectedItem as Alarm;
+                Alarm a = dataGrid2.SelectedItem as Alarm;
                 if (!File.Exists(@"..\xmlBaza\xmlBaza.xml"))
                 {
                     XmlTextWriter txtwriter = new XmlTextWriter(@"..\xmlBaza\xmlBaza.xml", System.Text.Encoding.UTF8);
@@ -239,11 +178,6 @@ namespace SubscriberWPF
                 }
                 else
                 {
-
-
-
-
-
                     var xmlDoc = XDocument.Load(@"..\xmlBaza\xmlBaza.xml");
                     var parentElement = new XElement("Alarm");
                     var generisanElement = new XElement("Genersan", a.Izgenerisan.ToString());
@@ -259,10 +193,16 @@ namespace SubscriberWPF
                     rootElement?.Add(parentElement);
 
                     xmlDoc.Save(@"..\xmlBaza\xmlBaza.xml");
-                    
+
                 }
             }
+            else
+            {
+                MessageBox.Show("Morate odabrati alarm u okviru data grida!", "", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
+        
     }
 }
 

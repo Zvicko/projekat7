@@ -64,7 +64,6 @@
   <ItemGroup>
     <Compile Include="Alarm.cs" />
     <Compile Include="IClient.cs" />
-    <Compile Include="Interfejs.cs" />
     <Compile Include="IPublish.cs" />
     <Compile Include="ISubscribe.cs" />
     <Compile Include="ISyslog.cs" />
@@ -82,9 +81,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Poruke.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

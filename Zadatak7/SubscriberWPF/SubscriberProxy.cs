@@ -5,6 +5,11 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Manager;
+using System.Security.Principal;
+using System.IdentityModel;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SubscriberWPF
 {
@@ -14,6 +19,14 @@ namespace SubscriberWPF
 
         public SubscriberProxy(NetTcpBinding binding, string address) : base(binding, address)
         {
+            string clientCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+
+            this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
+            this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertificateValidator();
+            this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+
+            this.Credentials.ClientCertificate.Certificate = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, clientCertCN);
+
             factory = this.CreateChannel();
         }
 

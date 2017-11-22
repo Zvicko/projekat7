@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.ServiceModel;
+using System.ServiceModel.Security;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.ServiceModel.Description;
+using System.IdentityModel;
 using Common;
 using Manager;
 
@@ -18,6 +21,9 @@ namespace PubSubEngine
             string address1 = "net.tcp://localhost:9999/PublisherService";
             string address2 = "net.tcp://localhost:1000/SubscriberService";
 
+            // Common name sertifikata koji koristi server.
+            string serverCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+
             PublisherService p = new PublisherService(); // da bi inicijalizovao listu
 
             ServiceHost host1 = new ServiceHost(typeof(PublisherService));
@@ -25,22 +31,37 @@ namespace PubSubEngine
             host1.AddServiceEndpoint(typeof(IPublish), binding, address1);
             host2.AddServiceEndpoint(typeof(ISubscribe), binding, address2);
 
-            host1.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
-            host1.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
-            host2.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
-            host2.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+            host1.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
+            host1.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertificateValidator();
+            host1.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+            host2.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
+            host2.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertificateValidator();
+            host2.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
+
+            X509Certificate2 cert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, serverCertCN);
 
             Logger logger = new Logger();
 
-            host1.Open();
-            host2.Open();
+            try
+            {
+                host1.Open();
+                host2.Open();
 
-            Console.WriteLine("PubSubEngine service has been started.\n");
-            Console.WriteLine("Press ENTER to stop the service...");
+                Console.WriteLine("PubSubEngine service has been started.\n");
+                Console.WriteLine("Press ENTER to stop the service...");
 
-            Console.ReadLine();
-            host1.Close();
-            host2.Close();
+                Console.ReadLine();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("[ERROR] {0}", e.Message);
+                Console.WriteLine("[StackTrace] {0}", e.StackTrace);
+            }
+            finally
+            {
+                host1.Close();
+                host2.Close();
+            }
         }
     }
 }

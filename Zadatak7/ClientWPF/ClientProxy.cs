@@ -11,6 +11,7 @@ namespace ClientWPF
     public class ClientProxy : ChannelFactory<IClient>, IClient, IDisposable
     {
         IClient factory;
+
         public ClientProxy(NetTcpBinding binding, string address) : base(binding, address)
         {
             factory = this.CreateChannel();

@@ -16,7 +16,6 @@ namespace SysLog
             NetTcpBinding bindingClient = new NetTcpBinding();
             string address1 = "net.tcp://localhost:8477/SysLog";
 
-
             ServiceHost host1 = new ServiceHost(typeof(SubService));
             host1.AddServiceEndpoint(typeof(ISyslog), bindingClient, address1);
 
@@ -29,6 +28,7 @@ namespace SysLog
             Console.WriteLine("Press ENTER to stop the service...");
 
             Console.ReadLine();
+
             host1.Close();
         }
     }

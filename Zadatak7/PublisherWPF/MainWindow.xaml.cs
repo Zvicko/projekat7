@@ -32,17 +32,15 @@ namespace PublisherWPF
         PublisherProxy proxy = null;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
       
         public MainWindow()
         {
             InitializeComponent();
+
             NetTcpBinding binding = new NetTcpBinding();
             string address = "net.tcp://localhost:9999/PublisherService";
 
             proxy = new PublisherProxy(binding, address);
-
-
         }
       
 
@@ -78,14 +76,10 @@ namespace PublisherWPF
                 labelaTopicRizik.Content = "Uneta je nebrojevna vrednost za rizik!";
 
             }
-
-
         }
-
 
         private string proveraRizika(int temp)
         {
-
             if (temp < 11)
                 return "nemaRizika";
             else if (temp >= 11 && temp < 31)
@@ -104,7 +98,5 @@ namespace PublisherWPF
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
-
-
     }
 }

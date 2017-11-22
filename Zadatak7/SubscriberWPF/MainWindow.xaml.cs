@@ -35,7 +35,6 @@ namespace SubscriberWPF
 
         public MainWindow()
         {
-
             InitializeComponent();
             object _lock = new object();
             al = new ObservableCollection<Alarm>();
@@ -50,10 +49,8 @@ namespace SubscriberWPF
             NetTcpBinding bindingSysLog = new NetTcpBinding();
             //string addressSyslog = "net.tcp://localhost:8477/SysLog";
 
-
             NetTcpBinding bindingClient = new NetTcpBinding();
             string address1 = "net.tcp://localhost:5656/Client";
-
 
             ServiceHost host1 = new ServiceHost(typeof(ClientService));
             host1.AddServiceEndpoint(typeof(IClient), bindingClient, address1);
@@ -66,9 +63,9 @@ namespace SubscriberWPF
             comboBox.ItemsSource = rizici;
             proxy = new SubscriberProxy(binding, address);
 
-
             Thread thread = new Thread(new ThreadStart(this.worker_DoWork));
             thread.IsBackground = true;
+
 
         }
         private void Potvrdi_click(object sender, RoutedEventArgs e)

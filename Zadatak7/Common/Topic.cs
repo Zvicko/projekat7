@@ -13,14 +13,15 @@ namespace Common
     {
         private string nazivTopica;
         private Alarm al;
+
         [DataMember()]
         public string NazivTopica
         {
             get { return nazivTopica; }
             set { nazivTopica = value; }
         }
+
         [DataMember()]
-       
         public Alarm Al
         {
             get { return al; }

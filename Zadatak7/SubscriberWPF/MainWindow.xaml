@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Subscriber" Height="350" Width="525">
     <Grid>
-        <Button x:Name="button" Content="Pretplati se" HorizontalAlignment="Left" Margin="311,279,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
+        <Button x:Name="dugmePretplatiSe" Click="dugmePretplatiSe_Click" Content="Pretplati se" HorizontalAlignment="Left" Margin="311,279,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
         <Button x:Name="button1" Content="Odjava" HorizontalAlignment="Left" Margin="432,0,0,0" VerticalAlignment="Top" Width="75" Height="30" Click="close"/>
         <DataGrid x:Name="dataGrid"  IsReadOnly="True"   ItemsSource="{Binding al}" SelectionMode="Single" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="221" Margin="190,47,0,0" VerticalAlignment="Top" Width="317">
             <DataGrid.Columns>

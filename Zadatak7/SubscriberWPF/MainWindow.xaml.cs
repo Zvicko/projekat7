@@ -9,6 +9,8 @@ using System.Windows.Data;
 using System.ComponentModel;
 using System.Threading;
 using System.Xml;
+using System.IO;
+using System.Xml.Linq;
 
 namespace SubscriberWPF
 {
@@ -207,26 +209,58 @@ namespace SubscriberWPF
             if (dataGrid.SelectedItem != null)
             {
                 Alarm a = dataGrid.SelectedItem as Alarm;
-                XmlTextWriter txtwriter = new XmlTextWriter(@"..\xmlBaza\xmlBaza", System.Text.Encoding.UTF8);
-                txtwriter.Formatting = Formatting.Indented;
-                txtwriter.Indentation = 4;
-                txtwriter.WriteStartDocument();
-                txtwriter.WriteStartElement("Alarm");
-                txtwriter.WriteStartElement("Generisan");
-                txtwriter.WriteString(a.Izgenerisan.ToString());
-                txtwriter.WriteEndElement();
+                if (!File.Exists(@"..\xmlBaza\xmlBaza.xml"))
+                {
+                    XmlTextWriter txtwriter = new XmlTextWriter(@"..\xmlBaza\xmlBaza.xml", System.Text.Encoding.UTF8);
+                    txtwriter.Formatting = Formatting.Indented;
+                    txtwriter.Indentation = 4;
 
-                txtwriter.WriteStartElement("Poruka", "");
-                txtwriter.WriteString(a.Poruka);
-                txtwriter.WriteEndElement();
+                    txtwriter.WriteStartDocument();
 
-                txtwriter.WriteStartElement("Rizik", "");
-                txtwriter.WriteString(a.Rizik.ToString());
-                txtwriter.WriteEndElement();
+                    txtwriter.WriteStartElement("Alarmi");
+                    txtwriter.WriteStartElement("Alarm");
+                    txtwriter.WriteStartElement("Generisan");
+                    txtwriter.WriteString(a.Izgenerisan.ToString());
+                    txtwriter.WriteEndElement();
 
-                txtwriter.WriteEndElement();
-                txtwriter.WriteEndDocument();
-                txtwriter.Close();
+                    txtwriter.WriteStartElement("Poruka", "");
+                    txtwriter.WriteString(a.Poruka);
+                    txtwriter.WriteEndElement();
+
+                    txtwriter.WriteStartElement("Rizik", "");
+                    txtwriter.WriteString(a.Rizik.ToString());
+                    txtwriter.WriteEndElement();
+
+                    txtwriter.WriteEndElement();
+                    txtwriter.WriteEndElement();
+
+                    txtwriter.WriteEndDocument();
+                    txtwriter.Close();
+                }
+                else
+                {
+
+
+
+
+
+                    var xmlDoc = XDocument.Load(@"..\xmlBaza\xmlBaza.xml");
+                    var parentElement = new XElement("Alarm");
+                    var generisanElement = new XElement("Genersan", a.Izgenerisan.ToString());
+                    var porukaElement = new XElement("Poruka", a.Poruka);
+                    var rizikElement = new XElement("Rizik", a.Rizik.ToString());
+
+                    parentElement.Add(generisanElement);
+                    parentElement.Add(porukaElement);
+                    parentElement.Add(rizikElement);
+
+                    var rootElement = xmlDoc.Element("Alarmi");
+
+                    rootElement?.Add(parentElement);
+
+                    xmlDoc.Save(@"..\xmlBaza\xmlBaza.xml");
+                    
+                }
             }
         }
     }

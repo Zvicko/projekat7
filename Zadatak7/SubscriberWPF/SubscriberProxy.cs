@@ -30,11 +30,11 @@ namespace SubscriberWPF
             factory = this.CreateChannel();
         }
 
-        public void Subscribe(string topicName)
+        public void Subscribe(Topic topic,string imeSUb)
         {
             try
             {
-                factory.Subscribe(topicName);
+                factory.Subscribe(topic, imeSUb);
             }
             catch (Exception e)
             {

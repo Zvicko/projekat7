@@ -13,6 +13,7 @@ namespace Common
     {
         private string nazivTopica;
         private Alarm al;
+        private string nazivPub;
 
         [DataMember()]
         public string NazivTopica
@@ -26,6 +27,12 @@ namespace Common
         {
             get { return al; }
             set { al = value; }
+        }
+        [DataMember()]
+        public string NazivPub
+        {
+            get { return nazivPub; }
+            set { nazivPub = value; }
         }
     }
 }

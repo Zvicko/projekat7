@@ -11,6 +11,8 @@ using System.Threading;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
+using System.Windows.Input;
+using System;
 
 namespace SubscriberWPF
 {
@@ -38,15 +40,77 @@ namespace SubscriberWPF
             set;
         }
 
+        private string imeSub = "";
+        private string portnum;
+
+        public string ImeSub
+        {
+            get { return imeSub; }
+            set
+            {
+                imeSub = value;
+                OnPropertyChanged("ImeSub");
+            }
+        }
+        public string PortNum
+        {
+            get { return portnum; }
+            set
+            {
+                portnum = value;
+                OnPropertyChanged("PortNUm");
+            }
+        }
+
+        public enum isStart
+        {
+            Yes,
+            No
+        }
+        private isStart isStartProp = isStart.Yes;
+
+        private ICommand loginCommandSub;
+
+        public isStart StartUp
+        {
+            get { return isStartProp; }
+            set
+            {
+                isStartProp = value;
+                OnPropertyChanged("StartUp");
+            }
+        }
+        public ICommand StartCommandClient
+        {
+            get
+            {
+                return loginCommandSub ?? (loginCommandSub = new RelayCommand((param) => this.startComm()));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+      
+
         private static SubscriberProxy proxy = null; // mozda ne mora da bude static
         private readonly BackgroundWorker worker = new BackgroundWorker();
+        public static string SubName;
+        public static int Port;
         Thread thread = null;
         string s = string.Empty;
         //static int pom = 0;
         public MainWindow()
         {
-
+          
             InitializeComponent();
+            DataContext = this;
+            StartUp = isStart.Yes;
             object _lock = new object();
             object _lock1 = new object();
             al = new ObservableCollection<Alarm>();
@@ -55,26 +119,12 @@ namespace SubscriberWPF
             BindingOperations.EnableCollectionSynchronization(pretplaceni, _lock1);
             //al = new ObservableCollection<Alarm>();
             tempTop = new List<Topic>();
-            DataContext = this;
             string[] rizici = { "nema rizika", "niski rizik", "srednji rizik", "visoki rizik" };
             NetTcpBinding binding = new NetTcpBinding();
             string address = "net.tcp://localhost:1000/SubscriberService";
 
             NetTcpBinding bindingSysLog = new NetTcpBinding();
             //string addressSyslog = "net.tcp://localhost:8477/SysLog";
-
-
-            NetTcpBinding bindingClient = new NetTcpBinding();
-            string address1 = "net.tcp://localhost:5656/Client";
-
-
-            ServiceHost host1 = new ServiceHost(typeof(ClientService));
-            host1.AddServiceEndpoint(typeof(IClient), bindingClient, address1);
-
-            host1.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
-            host1.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
-
-            host1.Open();
 
             comboBox.ItemsSource = rizici;
             proxy = new SubscriberProxy(binding, address);
@@ -201,8 +251,31 @@ namespace SubscriberWPF
                 MessageBox.Show("Morate odabrati alarm u okviru data grida!", "", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        private void startComm()
+        {
+            StartUp = isStart.No;
+            MainWindow.SubName = subnametb.Text;
+            MainWindow.Port = Int32.Parse(porttb.Text);
+            GridStart.Visibility = Visibility.Collapsed;
+            MainGrid.Visibility = Visibility.Visible;
+            SubNameWindow.Title = "Subscriber" + MainWindow.SubName;
 
-        
+            //NetTcpBinding bindingClient = new NetTcpBinding();
+            //string address1 = "net.tcp://localhost:5200/Client";
+
+
+            //ServiceHost host1 = new ServiceHost(typeof(ClientService));
+            //host1.AddServiceEndpoint(typeof(IClient), bindingClient, address1);
+
+            //host1.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            //host1.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+
+            //host1.Open();
+
+
+        }
+
+
     }
 }
 

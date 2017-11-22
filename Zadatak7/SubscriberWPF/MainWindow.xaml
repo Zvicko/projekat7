@@ -5,30 +5,68 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SubscriberWPF"
         mc:Ignorable="d"
-        Title="Subscriber" Height="350" Width="763.993">
+        Title="Subscriber" Height="350" Width="763.993" Name="SubNameWindow">
+
     <Grid>
-        <Button x:Name="dugmePretplatiSe" Click="dugmePretplatiSe_Click" Content="Pretplati se" HorizontalAlignment="Left" Margin="106,259,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
-        <Button x:Name="button1" Content="Odjava" HorizontalAlignment="Left" Margin="651,16,0,0" VerticalAlignment="Top" Width="75" Height="30" Click="close"/>
-        <DataGrid x:Name="dataGrid"  IsReadOnly="True"   ItemsSource="{Binding al}" SelectionMode="Single" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="221" Margin="409,57,0,0" VerticalAlignment="Top" Width="301">
-            <DataGrid.Columns>
+        <Grid Name="GridStart">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding StartUp}" Value="No">
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
 
-                <DataGridTextColumn Header="Datum generisanja" Binding="{Binding Izgenerisan}"/>
-                <DataGridTextColumn Header="Poruka" Binding="{Binding Poruka}"/>
-                <DataGridTextColumn Header="Rizik" Binding="{Binding Rizik}" Width="*"/>
-            </DataGrid.Columns>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Margin="203,83,0,50">Ime Subsribera:</Label>
+            <TextBox Name="subnametb" Grid.Column="1"  Margin="0,83,165,50"></TextBox>
+            <Label Grid.Row="1" Margin="203,10,0,113" >Client port</Label>
+            <TextBox Name="porttb"  Grid.Column="1" Grid.Row="1" Margin="10,10,186,113"></TextBox>
+            <Button Grid.Row="1" Margin="246,87,250,41" Grid.ColumnSpan="2" Content="Pokreni" Command="{Binding StartCommandClient}"></Button>
+        </Grid>
+        <Grid Name="MainGrid">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding StartUp}" Value="No">
+                            <Setter Property="Visibility" Value="Visible"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Button x:Name="dugmePretplatiSe" Click="dugmePretplatiSe_Click" Content="Pretplati se" HorizontalAlignment="Left" Margin="106,259,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
+            <Button x:Name="button1" Content="Odjava" HorizontalAlignment="Left" Margin="651,16,0,0" VerticalAlignment="Top" Width="75" Height="30" Click="close"/>
+            <DataGrid x:Name="dataGrid"  IsReadOnly="True"   ItemsSource="{Binding al}" SelectionMode="Single" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="221" Margin="409,57,0,0" VerticalAlignment="Top" Width="301">
+                <DataGrid.Columns>
 
-        </DataGrid>
-        <Label x:Name="label" Content="Alarmi u zavisnosti od nivoa rizika:" HorizontalAlignment="Left" Margin="24,10,0,0" VerticalAlignment="Top" Width="215" Height="49"/>
-        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="239,16,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="comboBox_SelectionChanged"  />
-        <DataGrid  x:Name="dataGrid2"  IsReadOnly="True"   ItemsSource="{Binding pretplaceni}" SelectionMode="Single" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="167" Margin="24,62,0,0" VerticalAlignment="Top" Width="316">
-            <DataGrid.Columns>
+                    <DataGridTextColumn Header="Datum generisanja" Binding="{Binding Izgenerisan}"/>
+                    <DataGridTextColumn Header="Poruka" Binding="{Binding Poruka}"/>
+                    <DataGridTextColumn Header="Rizik" Binding="{Binding Rizik}" Width="*"/>
+                </DataGrid.Columns>
 
-                <DataGridTextColumn Header="Datum generisanja" Binding="{Binding Izgenerisan}"/>
-                <DataGridTextColumn Header="Poruka" Binding="{Binding Poruka}"/>
-                <DataGridTextColumn Header="Rizik" Binding="{Binding Rizik}" Width="*"/>
-            </DataGrid.Columns>
+            </DataGrid>
+            <Label x:Name="label" Content="Alarmi u zavisnosti od nivoa rizika:" HorizontalAlignment="Left" Margin="24,10,0,0" VerticalAlignment="Top" Width="215" Height="49"/>
+            <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="239,16,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="comboBox_SelectionChanged"  />
+            <DataGrid  x:Name="dataGrid2"  IsReadOnly="True"   ItemsSource="{Binding pretplaceni}" SelectionMode="Single" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="167" Margin="24,62,0,0" VerticalAlignment="Top" Width="316">
+                <DataGrid.Columns>
 
-        </DataGrid>
+                    <DataGridTextColumn Header="Datum generisanja" Binding="{Binding Izgenerisan}"/>
+                    <DataGridTextColumn Header="Poruka" Binding="{Binding Poruka}"/>
+                    <DataGridTextColumn Header="Rizik" Binding="{Binding Rizik}" Width="*"/>
+                </DataGrid.Columns>
 
+            </DataGrid>
+        </Grid>
     </Grid>
 </Window>

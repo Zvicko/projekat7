@@ -11,17 +11,29 @@ namespace PubSubEngine
 {
     public class SubscriberService : ISubscribe
     {
-         public List<Topic> Read()
-         {
-             return PublisherService.ListTopic;
+        public static Dictionary<Topic, List<string>> mainDic = new Dictionary<Topic,  List<string>>();
 
-         }
-         
-        public void Subscribe(string topicName)
+        public List<Topic> Read()
+        {
+            return PublisherService.ListTopic;
+
+        }
+
+        public void Subscribe(Topic topic,string imeSub)
         {
             //bool exit = false;
+           if (!mainDic.ContainsKey(topic))
+            {
+                List<string> subs = new List<string>();
+                subs.Add(imeSub);
+                mainDic.Add(topic, subs);
+            }
+            else
+            {
+                mainDic[topic].Add(imeSub);
+            }
+           
             
-            Console.WriteLine("\nPokrenut Subscriber. Topic name: {0}", topicName);
         }
     }
 }

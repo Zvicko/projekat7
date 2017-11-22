@@ -64,6 +64,7 @@ namespace PublisherWPF
                     topic.Al.Izgenerisan = DateTime.Now;
 
                     topic.Al.Poruka = Poruke.ResourceManager.GetString(poruka);
+                    topic.NazivPub = MainWindow.pubname;
                     proxy.Publish(topic);
                     textBoxRizik.Text = "";
                     textBoxTopic.Text = "";

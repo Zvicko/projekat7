@@ -8,6 +8,11 @@ namespace Manager
 {
     public class Formatter
     {
+        /// <summary>
+        /// Funkcija za parsiranje imena.
+        /// </summary>
+        /// <param name="winLogonName"> Ime koje treba parsirati. </param>
+        /// <returns></returns>
         public static string ParseName(string winLogonName)
         {
             string[] parts = new string[] { };

@@ -42,7 +42,7 @@ namespace SubscriberWPF
         private readonly BackgroundWorker worker = new BackgroundWorker();
         Thread thread = null;
         string s = string.Empty;
-        static int pom = 0;
+        //static int pom = 0;
         public MainWindow()
         {
 

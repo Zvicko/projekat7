@@ -13,10 +13,10 @@ namespace Manager
         /// <summary>
         /// Pribavljanje sertifikata sa specificiranim imenom iz skladista.
         /// </summary>
-        /// <param name="storeName"></param>
-        /// <param name="storeLocation"></param>
-        /// <param name="subjectName"></param>
-        /// <returns></returns>
+        /// <param name="storeName"> Naziv skladista sertifikata. </param>
+        /// <param name="storeLocation"> Lokacija skladista sertifikata. </param>
+        /// <param name="subjectName"> Ime subjekta. </param>
+        /// <returns> U slucaju nalazenja sertifikata vraca nadjen sertifikat, u suprotnom null. </returns>
         public static X509Certificate2 GetCertificateFromStorage(StoreName storeName, StoreLocation storeLocation, string subjectName)
         {
             X509Store store = new X509Store(storeName, storeLocation);

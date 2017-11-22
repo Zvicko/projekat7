@@ -13,6 +13,9 @@ namespace Manager
         const string sourceName = "Manager";
         const string logName = "Logger";
 
+        /// <summary>
+        /// Pravljenje Windows Event Log datoteke.
+        /// </summary>
         static Logger()
         {
             try
@@ -32,11 +35,18 @@ namespace Manager
             }
         }
 
+        /// <summary>
+        /// Belezenje dogadjaja u logger.
+        /// </summary>
+        /// <param name="message"> Poruka o dogadjaju koju je potrebno zapisati u log datoteku. </param>
         public static void AnnotateEvent(string message)
         {
             customLog.WriteEntry(message);
         }
 
+        /// <summary>
+        /// Funkcija koja oslobadja resurse zauzete od strane logger-a.
+        /// </summary>
         public void Dispose()
         {
             if (customLog != null)

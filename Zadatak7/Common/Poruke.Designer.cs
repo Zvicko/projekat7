@@ -61,7 +61,7 @@ namespace Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nema rizika. .
+        ///   Looks up a localized string similar to Nema rizika..
         /// </summary>
         public static string nemaRizika {
             get {

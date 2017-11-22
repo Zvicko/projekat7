@@ -10,7 +10,7 @@ namespace Manager
     public class DigitalSignature
     {
         /// <summary>
-        /// Metoda za generisanje digitalnog potpisa.
+        /// Funkcija za generisanje digitalnog potpisa.
         /// </summary>
         /// <param name="message"> Tekst koji treba da se digitalno potpise. </param>
         /// <param name="hashAlgorithm"> Hash algoritam koji se koristi. </param>
@@ -40,13 +40,13 @@ namespace Manager
         }
 
         /// <summary>
-        /// Metoda za verifikovanje digitalnog potpisa.
+        /// Funkcija za verifikovanje digitalnog potpisa.
         /// </summary>
-        /// <param name="message"></param>
-        /// <param name="hashAlgorith"></param>
-        /// <param name="signature"></param>
-        /// <param name="certificate"></param>
-        /// <returns></returns>
+        /// <param name="message"> Poruka koju treba verifikovati. </param>
+        /// <param name="hashAlgorith"> Hash algoritam koji se koristi. </param>
+        /// <param name="signature"> Digitalni potpis prosledjene poruke. </param>
+        /// <param name="certificate"> Sertifikat koji se koristi. </param>
+        /// <returns> Vraca true ukoliko je verifikacija bila uspesna, u suprotnom vraca false. </returns>
         public static bool Verify(string message, string hashAlgorith, byte[] signature, X509Certificate2 certificate)
         {
             // Pribavljanje javnog kljuca sertifikata za verifikovanje poruke.

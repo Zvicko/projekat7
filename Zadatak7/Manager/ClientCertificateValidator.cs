@@ -12,6 +12,10 @@ namespace Manager
 {
     public class ClientCertificateValidator : X509CertificateValidator
     {
+        /// <summary>
+        /// Funkcija za validaciju sertifikata sa klijenske strane.
+        /// </summary>
+        /// <param name="certificate"> Sertifikat koji je potrebno validirati. </param>
         public override void Validate(X509Certificate2 certificate)
         {
             X509Certificate2 cert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, Formatter.ParseName(WindowsIdentity.GetCurrent().Name));

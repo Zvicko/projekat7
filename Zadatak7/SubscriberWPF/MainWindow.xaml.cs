@@ -66,37 +66,80 @@ namespace SubscriberWPF
             comboBox.ItemsSource = rizici;
             proxy = new SubscriberProxy(binding, address);
 
-             Thread thread = new Thread(new ThreadStart(this.worker_DoWork));
-             thread.IsBackground = true;
-            //thread.Name = "My Worker.";
-            thread.Start();
+
+            Thread thread = new Thread(new ThreadStart(this.worker_DoWork));
+            thread.IsBackground = true;
 
         }
+        private void Potvrdi_click(object sender, RoutedEventArgs e)
+        {
+            string[] rizici = { "nema rizika", "niski rizik", "srednji rizik", "visoki rizik" };
+            string s = comboBox.SelectedValue.ToString();
 
-          private void worker_DoWork()
-          {
-              while (true)
-              {
-                  var items = al.ToList();
+            int pom = 1;
 
-                  foreach (var item in items)
-                  {
-                      al.Remove(item);
-                  }
+            if (s == "nema rizika")
+                pom = 1;
+            if (s == "niski rizik")
+                pom = 2;
+            if (s == "srednji rizik")
+                pom = 3;
+            if (s == "visoki rizik")
+                pom = 4;
 
-                  tempTop = proxy.Read();
+            al.Clear();
+            foreach (Topic t in tempTop)
+            {
+                if (pom == 1)
+                {
+                    if (t.Al.Rizik > 0 && t.Al.Rizik < 11)
+                        al.Add(t.Al);
+                }
+                else if (pom == 2)
+                {
+                    if (t.Al.Rizik >= 11 && t.Al.Rizik < 31)
+                        al.Add(t.Al);
+                }
+                else if (pom == 3)
+                {
+                    if (t.Al.Rizik >= 31 && t.Al.Rizik < 71)
+                        al.Add(t.Al);
+                }
+                else if (pom == 4)
+                {
+                    if (t.Al.Rizik >= 71 && t.Al.Rizik <= 100)
+                        al.Add(t.Al);
+                }
+            }
+        }
 
-                  foreach (Topic t in tempTop)
-                  {
 
-                      al.Add(t.Al);
-                  }
-                  //dataGrid.Items.Refresh();
-                  Thread.Sleep(2000);
-              }
-          }
 
-          
+
+
+        private void worker_DoWork()
+        {
+            while (true)
+            {
+                var items = al.ToList();
+
+                foreach (var item in items)
+                {
+                    al.Remove(item);
+                }
+
+                tempTop = proxy.Read();
+
+                foreach (Topic t in tempTop)
+                {
+                    al.Add(t.Al);
+                }
+                //dataGrid.Items.Refresh();
+                Thread.Sleep(2000);
+            }
+        }
+
+
         private void close(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -120,50 +163,11 @@ namespace SubscriberWPF
                 al.Add(t.Al);
             }
         }
-
-
-        private void dugme_Potvrdi(object sender, RoutedEventArgs e)
-        {
-            string[] rizici = { "nema rizika", "niski rizik", "srednji rizik", "visoki rizik" };
-            string s = comboBox.SelectedValue.ToString();
-            int pom = 1;
-
-            if (s == "nema rizika")
-                pom = 1;
-            else if (s == "niski rizik")
-                pom = 2;
-            else if (s == "srednji rizik")
-                pom = 3;
-            else if (s == "visoki rizik")
-                pom = 4;
-
-            al.Clear();
-            foreach (Topic t in tempTop)
-            {
-                if (pom == 1)
-                {
-                    if (t.Al.Rizik > 0 && t.Al.Rizik < 11)
-                        al.Add(t.Al);
-                }
-                else if (pom == 2)
-                {
-                    if (t.Al.Rizik >= 11 && t.Al.Rizik < 31)
-                        al.Add(t.Al);
-                }
-                else if (pom == 3)
-                {
-                    if (t.Al.Rizik >= 31 && t.Al.Rizik < 71)
-                        al.Add(t.Al);
-                }
-                else if(pom == 4)
-                {
-                    if (t.Al.Rizik >= 71 && t.Al.Rizik <=100)
-                        al.Add(t.Al);
-                }
-            }
-
-        }
-
-
     }
 }
+
+
+
+
+
+

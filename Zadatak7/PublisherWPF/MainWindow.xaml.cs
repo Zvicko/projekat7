@@ -1,6 +1,7 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
@@ -22,21 +23,28 @@ namespace PublisherWPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        public static string pubname = "";
+        public static int timeToSend;
+       
         Topic topic = new Topic();
         PublisherProxy proxy = null;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+      
         public MainWindow()
         {
             InitializeComponent();
-            
             NetTcpBinding binding = new NetTcpBinding();
             string address = "net.tcp://localhost:9999/PublisherService";
 
-
             proxy = new PublisherProxy(binding, address);
-           
+
+
         }
+      
 
         private void dugme_Click(object sender, RoutedEventArgs e)
         {
@@ -62,7 +70,7 @@ namespace PublisherWPF
                     textBoxRizik.Text = "";
                     textBoxTopic.Text = "";
                     labelaUspesno.Content = "Topic je uspesno dodat!";
-                    
+
                 }
             }
             else
@@ -88,6 +96,13 @@ namespace PublisherWPF
                 return "visokiRizik";
             else
                 return null;
+        }
+        protected virtual void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
         }
 
 

@@ -17,3 +17,5 @@ namespace Common
         void DoAlarm(Alarm a);
     }
 }
+
+

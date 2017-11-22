@@ -6,15 +6,62 @@
         xmlns:local="clr-namespace:PublisherWPF"
         mc:Ignorable="d"
         Title="Publisher" Height="350" Width="620">
-    <Grid>
-        <Label x:Name="nazivTopica" Content="Unesite ime topica :" HorizontalAlignment="Left" Height="26" Margin="10,39,0,0" VerticalAlignment="Top" Width="127"/>
-        <TextBox x:Name="textBoxTopic" HorizontalAlignment="Left" Height="20" Margin="149,39,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="226"/>
-        <Label x:Name="unetiRizik" Content="Rizik :" HorizontalAlignment="Left" Height="26" Margin="16,82,0,0" VerticalAlignment="Top" Width="107"/>
-        <TextBox x:Name="textBoxRizik" HorizontalAlignment="Left" Height="19" Margin="149,89,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="226"/>
-        <Label x:Name="labelaTopicNevalidan" Foreground="Red"  Content="" HorizontalAlignment="Left" Height="26" Margin="394,39,0,0" VerticalAlignment="Top" Width="196"/>
-        <Label x:Name="labelaTopicRizik"  Foreground="Red" FontSize="9" Content=""  HorizontalAlignment="Left" Height="32" Margin="394,76,0,0" VerticalAlignment="Top" Width="196" />
-        <Button x:Name="dugme" Content="Dodaj Topic" HorizontalAlignment="Left" Height="31" Margin="31,149,0,0" VerticalAlignment="Top" Width="92" Click="dugme_Click"/>
-        <Label x:Name="labelaUspesno" FontSize="30" Foreground="Green" Content="" HorizontalAlignment="Left" Height="57" Margin="43,220,0,0" VerticalAlignment="Top" Width="365"/>
+    <Window.DataContext>
+        <local:MainWindowVM x:Name="mainw"></local:MainWindowVM>
+    </Window.DataContext>
 
+    <Grid>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding StartUp}" Value="No">
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Margin="203,83,0,50">Ime Publishera:</Label>
+            <TextBox  Grid.Column="1" Text="{Binding ImePub}" Margin="0,83,165,50"></TextBox>
+            <Label Grid.Row="1" Margin="172,10,0,113" >Vreme slanja poruka(s): </Label>
+            <TextBox Text="{Binding Vreme}" Grid.Column="1" Grid.Row="1" Margin="10,10,186,113"></TextBox>
+            <Button Grid.Row="1" Margin="246,87,250,41" Grid.ColumnSpan="2" Content="Pokreni" Command="{Binding StartCommand}"></Button>
+
+
+        </Grid>
+        <Grid>
+            
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding StartUp}" Value="No">
+                            <Setter Property="Visibility" Value="Visible"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            
+            <Label x:Name="nazivTopica" Content="Unesite ime topica :" HorizontalAlignment="Left" Height="26" Margin="10,39,0,0" VerticalAlignment="Top" Width="127"/>
+            <TextBox x:Name="textBoxTopic" HorizontalAlignment="Left" Height="20" Margin="149,39,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="226"/>
+            <Label x:Name="unetiRizik" Content="Rizik :" HorizontalAlignment="Left" Height="26" Margin="16,82,0,0" VerticalAlignment="Top" Width="107"/>
+            <TextBox x:Name="textBoxRizik" HorizontalAlignment="Left" Height="19" Margin="149,89,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="226"/>
+            <Label x:Name="labelaTopicNevalidan" Foreground="Red"  Content="" HorizontalAlignment="Left" Height="26" Margin="394,39,0,0" VerticalAlignment="Top" Width="196"/>
+            <Label x:Name="labelaTopicRizik"  Foreground="Red" FontSize="9" Content=""  HorizontalAlignment="Left" Height="32" Margin="394,76,0,0" VerticalAlignment="Top" Width="196" />
+            <Button x:Name="dugme" Content="Dodaj Topic" HorizontalAlignment="Left" Height="31" Margin="31,149,0,0" VerticalAlignment="Top" Width="92" Click="dugme_Click"/>
+            <Label x:Name="labelaUspesno" FontSize="30" Foreground="Green" Content="" HorizontalAlignment="Left" Height="57" Margin="43,220,0,0" VerticalAlignment="Top" Width="365"/>
+
+        </Grid>
+      
     </Grid>
 </Window>

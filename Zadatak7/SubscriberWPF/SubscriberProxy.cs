@@ -41,9 +41,11 @@ namespace SubscriberWPF
                 Console.WriteLine($"Error: {e.Message}");
             }
         }
+
         public List<Topic> Read()
         {
             List<Topic> list = new List<Topic>();
+
             try
             {
                 list = factory.Read();
@@ -54,16 +56,42 @@ namespace SubscriberWPF
             }
 
             //list.ForEach(t => Console.WriteLine($"{t.NazivTopica}\n{t.Al.Izgenerisan}\n{t.Al.Poruka}\n{t.Al.Rizik}"));
+
+            /* foreach (Topic t in list)
+             {
+                 if(!MainWindow.al.Contains(t.Al))
+                     MainWindow.al.Add(t.Al);
+             }
+             */
+            return list;
+
+        }
+
+        /*public List<Topic> Read(X509Certificate2 certificate)
+        {
+            List<Topic> list = new List<Topic>();
+
+            try
+            {
+                list = factory.Read(certificate);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
+
+            //list.ForEach(t => Console.WriteLine($"{t.NazivTopica}\n{t.Al.Izgenerisan}\n{t.Al.Poruka}\n{t.Al.Rizik}"));
             
-           /* foreach (Topic t in list)
+            foreach (Topic t in list)
             {
                 if(!MainWindow.al.Contains(t.Al))
                     MainWindow.al.Add(t.Al);
             }
-            */
+            
             return list;
 
-        }
+        }*/
+
         public void Dispose()
         {
 

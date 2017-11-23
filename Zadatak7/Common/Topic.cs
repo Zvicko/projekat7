@@ -14,6 +14,7 @@ namespace Common
         private string nazivTopica;
         private Alarm al;
         private string nazivPub;
+        private byte[] potpis;
 
         [DataMember()]
         public string NazivTopica
@@ -33,6 +34,13 @@ namespace Common
         {
             get { return nazivPub; }
             set { nazivPub = value; }
+        }
+
+        [DataMember()]
+        public byte[] Potpis
+        {
+            get { return potpis; }
+            set { potpis = value; }
         }
     }
 }

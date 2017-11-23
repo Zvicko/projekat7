@@ -13,6 +13,9 @@ using System.IO;
 using System.Xml.Linq;
 using System.Windows.Input;
 using System;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
+using Manager;
 
 namespace SubscriberWPF
 {
@@ -21,6 +24,8 @@ namespace SubscriberWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        public X509Certificate2 subCert;
+
         public static ObservableCollection<Alarm> al
         {
             get;
@@ -126,9 +131,10 @@ namespace SubscriberWPF
             NetTcpBinding bindingSysLog = new NetTcpBinding();
             //string addressSyslog = "net.tcp://localhost:8477/SysLog";
 
+            subCert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, Formatter.ParseName(WindowsIdentity.GetCurrent().Name));
+
             comboBox.ItemsSource = rizici;
             proxy = new SubscriberProxy(binding, address);
-
 
             thread = new Thread(new ThreadStart(this.worker_DoWork));
             thread.IsBackground = true;
@@ -162,7 +168,8 @@ namespace SubscriberWPF
                 var items = al.ToList();
                 //al.Clear();
 
-               tempTop = proxy.Read();
+                tempTop = proxy.Read();
+               //tempTop = proxy.Read(subCert);
 
                 foreach (Topic t in tempTop)
                 {
@@ -198,9 +205,9 @@ namespace SubscriberWPF
             if (dataGrid2.SelectedItem != null)
             {
                 Alarm a = dataGrid2.SelectedItem as Alarm;
-                if (!File.Exists(@"..\xmlBaza " + comboBox.SelectedItem.ToString() + " .xml"))
+                if (!File.Exists(@"..\xmlBaza.xml"))
                 {
-                    XmlTextWriter txtwriter = new XmlTextWriter(@"..\xmlBaza " + comboBox.SelectedItem.ToString() + " .xml", System.Text.Encoding.UTF8);
+                    XmlTextWriter txtwriter = new XmlTextWriter(@"..\xmlBaza.xml", System.Text.Encoding.UTF8);
                     txtwriter.Formatting = Formatting.Indented;
                     txtwriter.Indentation = 4;
 
@@ -228,7 +235,7 @@ namespace SubscriberWPF
                 }
                 else
                 {
-                    var xmlDoc = XDocument.Load(@"..\xmlBaza "+ comboBox.SelectedItem.ToString() +" .xml");
+                    var xmlDoc = XDocument.Load(@"..\xmlBaza.xml");
                     var parentElement = new XElement("Alarm");
                     var generisanElement = new XElement("Genersan", a.Izgenerisan.ToString());
                     var porukaElement = new XElement("Poruka", a.Poruka);
@@ -242,7 +249,7 @@ namespace SubscriberWPF
 
                     rootElement?.Add(parentElement);
 
-                    xmlDoc.Save(@"..\xmlBaza " + comboBox.SelectedItem.ToString() +" .xml");
+                    xmlDoc.Save(@"..\xmlBaza.xml");
 
                 }
             }
@@ -258,7 +265,7 @@ namespace SubscriberWPF
             MainWindow.Port = Int32.Parse(porttb.Text);
             GridStart.Visibility = Visibility.Collapsed;
             MainGrid.Visibility = Visibility.Visible;
-            SubNameWindow.Title = "Subscriber" + MainWindow.SubName;
+            SubNameWindow.Title = "Subscriber " + MainWindow.SubName;
 
             //NetTcpBinding bindingClient = new NetTcpBinding();
             //string address1 = "net.tcp://localhost:5200/Client";

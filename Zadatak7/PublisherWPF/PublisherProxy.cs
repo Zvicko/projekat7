@@ -13,7 +13,6 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace PublisherWPF
 {
-   
     public class PublisherProxy : ChannelFactory<IPublish>, IPublish, IDisposable
     {
         IPublish factory;
@@ -41,6 +40,18 @@ namespace PublisherWPF
                 Console.WriteLine($"Error {e.Message}");
             }
         }
+
+        /*public void Publish(Topic topic, X509Certificate2 certificate)
+        {
+            try
+            {
+                factory.Publish(topic, certificate);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error {e.Message}");
+            }
+        }*/
 
         public void Dispose()
         {

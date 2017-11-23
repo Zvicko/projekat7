@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
 using Common;
+using Manager;
+
 namespace PubSubEngine
 {
     public class PublisherService : IPublish
@@ -25,5 +28,16 @@ namespace PubSubEngine
 
             //ListTopic.ForEach(t => Console.WriteLine($"{t.NazivTopica}\n{t.Al.Izgenerisan}\n{t.Al.Poruka}\n{t.Al.Rizik}\n"));
         }
+
+        /*public void Publish(Topic topic, X509Certificate2 certificate)
+        {
+            string poruka = topic.Al.Poruka;
+
+            byte[] potpis = DigitalSignature.Create(poruka, "SHA1", certificate);
+
+            topic.Potpis = potpis;
+
+            ListTopic.Add(topic);
+        }*/
     }
 }

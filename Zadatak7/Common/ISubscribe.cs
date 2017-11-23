@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Common
 {
@@ -12,8 +13,11 @@ namespace Common
     {
         [OperationContract]
         void Subscribe(Topic topic,string imeSub);
+
         [OperationContract]
-        //Alarm Read();
         List<Topic> Read();
+
+        /*[OperationContract]
+        List<Topic> Read(X509Certificate2 certificate);*/
     }
 }

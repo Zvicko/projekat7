@@ -61,19 +61,25 @@ namespace ClientWPF
                 Alarm ala = dataGrid.SelectedItem as Alarm;
                 if (ala.Poruka == "Nema rizika.")
                 {
-
+                    var s = new Obrada(ala.Poruka);
+                    s.ShowDialog();
                 }
                 else if (ala.Poruka == "Rizik je nizak.")
                 {
+                    var s = new Obrada(ala.Poruka);
+                    s.ShowDialog();
 
                 }
                 else if (ala.Poruka == "Rizik je srednji.")
                 {
+                    var s = new Obrada(ala.Poruka);
+                    s.ShowDialog();
 
                 }
                 else if (ala.Poruka == "Rizik je visok.")
                 {
-
+                    var s = new Obrada(ala.Poruka);
+                    s.ShowDialog();
                 }
             }
             else

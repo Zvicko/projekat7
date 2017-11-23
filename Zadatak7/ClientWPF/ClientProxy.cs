@@ -24,7 +24,16 @@ namespace ClientWPF
 
         public List<Alarm> ShowAllAlarms()
         {
-            return null;
+            List<Alarm> ls = new List<Alarm>();
+            try
+            {
+                ls = factory.ShowAllAlarms();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
+            return ls;
         }
     }
 }

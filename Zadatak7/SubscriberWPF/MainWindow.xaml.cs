@@ -140,6 +140,23 @@ namespace SubscriberWPF
             thread.IsBackground = true;
             thread.Start();
 
+            ClientService cl = new ClientService();
+            string address1 = "net.tcp://localhost:10010/ClientService";
+            ServiceHost host1 = new ServiceHost(typeof(ClientService));
+            host1.AddServiceEndpoint(typeof(IClient), binding, address1);
+            try
+            {
+                host1.Open();
+
+
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"{e.Message}");
+            }
+
         }
 
         private void comboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

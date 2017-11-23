@@ -13,15 +13,21 @@ namespace PubSubEngine
 {
     public class SubscriberService : ISubscribe
     {
-        public static Dictionary<Topic, List<string>> mainDic = new Dictionary<Topic,  List<string>>();
-        //private static int itemCounter = 0;
+
+        public static Dictionary<Alarm, List<string>> mainDic = new Dictionary<Alarm, List<string>>();
+        public static object _locck = new object();
+
+        private static int itemCounter = 0;
+
 
         public List<Topic> Read()
         {
             return PublisherService.ListTopic;
         }
 
-        /*public List<Topic> Read(X509Certificate2 certificate)
+
+
+        public List<Topic> Read(X509Certificate2 certificate)
         {
             List<Topic> topics = PublisherService.ListTopic;
 
@@ -30,21 +36,59 @@ namespace PubSubEngine
             bool verified = DigitalSignature.Verify(topic.Al.Poruka, "SHA1", topic.Potpis, certificate);
 
             return topics;
-        }*/
+        }
 
-        public void Subscribe(Topic topic,string imeSub)
+        public bool Subscribe(Alarm alarm, string imeSub)
+
         {
             //bool exit = false;
-           if (!mainDic.ContainsKey(topic))
+
+            foreach (var item in mainDic.Keys)
             {
-                List<string> subs = new List<string>();
-                subs.Add(imeSub);
-                mainDic.Add(topic, subs);
+                if (item.Izgenerisan == alarm.Izgenerisan)
+                {
+                    if (!mainDic[item].Contains(imeSub))
+                    {
+                        lock (this)
+                        {
+                            mainDic[item].Add(imeSub);
+                        }
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                }
             }
-            else
+            List<string> subs = new List<string>();
+            lock (_locck)
             {
-                mainDic[topic].Add(imeSub);
-            }        
+                subs.Add(imeSub);
+                mainDic.Add(alarm, subs);
+            }
+            return true;
         }
+
+        public List<Alarm> SubscribedAlarms(string imeSub)
+        {
+            List<Alarm> returnList = new List<Alarm>();
+            lock (_locck)
+            {
+
+                foreach (var item in mainDic.Keys)
+                {
+                    if (mainDic[item].Contains(imeSub))
+                    {
+                        returnList.Add(item);
+                    }
+                }
+            }
+            return returnList;
+
+        }
+
     }
 }
+

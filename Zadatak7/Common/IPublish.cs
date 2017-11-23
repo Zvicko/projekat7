@@ -14,7 +14,11 @@ namespace Common
         [OperationContract(IsOneWay = true)]
         void Publish(Topic topic);
 
-        /*[OperationContract(IsOneWay = true)]
-        void Publish(Topic topic, X509Certificate2 certificate);*/
+        [OperationContract]
+        bool ShutDown(string pubName,bool flag);
+
+       /* [OperationContract(IsOneWay = true)]
+        void Publish(Topic topic, X509Certificate2 certificate);
+        */
     }
 }

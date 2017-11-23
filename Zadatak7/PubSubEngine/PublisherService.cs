@@ -11,7 +11,7 @@ namespace PubSubEngine
 {
     public class PublisherService : IPublish
     {
-       public static List<Topic> ListTopic
+        public static List<Topic> ListTopic
         {
             get;
             set;
@@ -29,7 +29,41 @@ namespace PubSubEngine
             //ListTopic.ForEach(t => Console.WriteLine($"{t.NazivTopica}\n{t.Al.Izgenerisan}\n{t.Al.Poruka}\n{t.Al.Rizik}\n"));
         }
 
-        /*public void Publish(Topic topic, X509Certificate2 certificate)
+
+        public bool ShutDown(string pubName, bool flag)
+        {
+            lock (SubscriberService._locck)
+            {
+                List<Alarm> alarms = new List<Alarm>();
+                foreach (var item in SubscriberService.mainDic.Keys)
+                {
+                    if (item.ImePub.Equals(pubName))
+                    {
+                        alarms.Add(item);
+                    }
+                }
+                foreach (var item in alarms)
+                {
+                    SubscriberService.mainDic.Remove(item);
+                }
+
+            }
+            foreach (var item in ListTopic)
+            {
+                if (item.NazivPub == pubName)
+                {
+                    ListTopic.Remove(item);
+                    break;
+                }
+            }
+            ListTopic.RemoveAll(x => x.NazivPub == pubName);
+
+
+            return true;
+
+
+        }
+        public void Publish(Topic topic, X509Certificate2 certificate)
         {
             string poruka = topic.Al.Poruka;
 
@@ -38,6 +72,7 @@ namespace PubSubEngine
             topic.Potpis = potpis;
 
             ListTopic.Add(topic);
-        }*/
+        }
+
     }
 }

@@ -12,12 +12,16 @@ namespace Common
     public interface ISubscribe
     {
         [OperationContract]
-        void Subscribe(Topic topic,string imeSub);
 
+        bool Subscribe(Alarm alarm,string imeSub);
         [OperationContract]
         List<Topic> Read();
 
-        /*[OperationContract]
+        [OperationContract]
+        List<Alarm> SubscribedAlarms(string imeSub);
+
+        /*
         List<Topic> Read(X509Certificate2 certificate);*/
+
     }
 }

@@ -198,9 +198,9 @@ namespace SubscriberWPF
             if (dataGrid2.SelectedItem != null)
             {
                 Alarm a = dataGrid2.SelectedItem as Alarm;
-                if (!File.Exists(@"..\xmlBaza\xmlBaza.xml"))
+                if (!File.Exists(@"..\xmlBaza " + comboBox.SelectedItem.ToString() + " .xml"))
                 {
-                    XmlTextWriter txtwriter = new XmlTextWriter(@"..\xmlBaza\xmlBaza.xml", System.Text.Encoding.UTF8);
+                    XmlTextWriter txtwriter = new XmlTextWriter(@"..\xmlBaza " + comboBox.SelectedItem.ToString() + " .xml", System.Text.Encoding.UTF8);
                     txtwriter.Formatting = Formatting.Indented;
                     txtwriter.Indentation = 4;
 
@@ -228,7 +228,7 @@ namespace SubscriberWPF
                 }
                 else
                 {
-                    var xmlDoc = XDocument.Load(@"..\xmlBaza\xmlBaza.xml");
+                    var xmlDoc = XDocument.Load(@"..\xmlBaza "+ comboBox.SelectedItem.ToString() +" .xml");
                     var parentElement = new XElement("Alarm");
                     var generisanElement = new XElement("Genersan", a.Izgenerisan.ToString());
                     var porukaElement = new XElement("Poruka", a.Poruka);
@@ -242,7 +242,7 @@ namespace SubscriberWPF
 
                     rootElement?.Add(parentElement);
 
-                    xmlDoc.Save(@"..\xmlBaza\xmlBaza.xml");
+                    xmlDoc.Save(@"..\xmlBaza " + comboBox.SelectedItem.ToString() +" .xml");
 
                 }
             }

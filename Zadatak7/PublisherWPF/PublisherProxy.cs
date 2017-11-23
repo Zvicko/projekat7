@@ -13,6 +13,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace PublisherWPF
 {
+   
     public class PublisherProxy : ChannelFactory<IPublish>, IPublish, IDisposable
     {
         IPublish factory;

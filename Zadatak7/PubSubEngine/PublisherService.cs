@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
 using Common;
+using Manager;
+
 namespace PubSubEngine
 {
     public class PublisherService : IPublish
     {
-       public static List<Topic> ListTopic
+        public static List<Topic> ListTopic
         {
             get;
             set;
@@ -26,6 +29,7 @@ namespace PubSubEngine
             //ListTopic.ForEach(t => Console.WriteLine($"{t.NazivTopica}\n{t.Al.Izgenerisan}\n{t.Al.Poruka}\n{t.Al.Rizik}\n"));
         }
 
+
         public bool ShutDown(string pubName, bool flag)
         {
             lock (SubscriberService._locck)
@@ -42,7 +46,7 @@ namespace PubSubEngine
                 {
                     SubscriberService.mainDic.Remove(item);
                 }
-                
+
             }
             foreach (var item in ListTopic)
             {
@@ -53,11 +57,22 @@ namespace PubSubEngine
                 }
             }
             ListTopic.RemoveAll(x => x.NazivPub == pubName);
-            
-            
+
+
             return true;
 
-            
+
         }
+        public void Publish(Topic topic, X509Certificate2 certificate)
+        {
+            string poruka = topic.Al.Poruka;
+
+            byte[] potpis = DigitalSignature.Create(poruka, "SHA1", certificate);
+
+            topic.Potpis = potpis;
+
+            ListTopic.Add(topic);
+        }
+
     }
 }

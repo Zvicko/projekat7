@@ -18,6 +18,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Manager;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 
 namespace PublisherWPF
 {
@@ -28,6 +31,7 @@ namespace PublisherWPF
     {
         public static string pubname = "";
         public static int timeToSend;
+        public X509Certificate2 pubCert;
        
         Topic topic = new Topic();
         PublisherProxy proxy = null;
@@ -41,6 +45,8 @@ namespace PublisherWPF
 
             NetTcpBinding binding = new NetTcpBinding();
             string address = "net.tcp://localhost:9999/PublisherService";
+
+            pubCert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, Formatter.ParseName(WindowsIdentity.GetCurrent().Name));
 
             proxy = new PublisherProxy(binding, address);
 
@@ -64,14 +70,20 @@ namespace PublisherWPF
                 }
                 else
                 {
-                    string poruka = proveraRizika(temp);
+                    string poruka = proveraRizika(temp); 
+
                     ResourceManager rm = new ResourceManager("Poruke", Assembly.GetExecutingAssembly());
+
                     topic.Al.Rizik = temp;
                     topic.Al.Izgenerisan = DateTime.Now;
                     topic.Al.ImePub = MainWindow.pubname;
+
                     topic.Al.Poruka = Poruke.ResourceManager.GetString(poruka);
                     topic.NazivPub = MainWindow.pubname;
+
                     proxy.Publish(topic);
+                    //proxy.Publish(topic, pubCert);
+
                     textBoxRizik.Text = "";
                     textBoxTopic.Text = "";
                     labelaUspesno.Content = "Topic je uspesno dodat!";

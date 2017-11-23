@@ -30,6 +30,38 @@ namespace ClientWPF
             set;
         }
 
+        private static string imeClient = "";
+        private static int portnum;
+
+        public static string ImeClient
+        {
+            get { return imeClient; }
+            set
+            {
+                imeClient = value;
+            }
+        }
+        public static int PortNum
+        {
+            get { return portnum; }
+            set
+            {
+                portnum = value;
+            }
+        }
+
+        private ICommand loginCommandSub;
+
+     
+        public ICommand StartCommandClient
+        {
+            get
+            {
+                return loginCommandSub ?? (loginCommandSub = new RelayCommand((param) => this.startComm()));
+            }
+        }
+
+       
 
         public MainWindow()
         {
@@ -37,10 +69,20 @@ namespace ClientWPF
             DataContext = this;
             Prikazi = new ObservableCollection<Alarm>();
             object _lock = new object();
-
             BindingOperations.EnableCollectionSynchronization(Prikazi, _lock);
+            
+        }
+
+        private void startComm()
+        {
+            MainWindow.ImeClient = subnametb.Text;
+            MainWindow.PortNum = Int32.Parse(porttb.Text);
+            GridStart.Visibility = Visibility.Collapsed;
+            mainGrid.Visibility = Visibility.Visible;
+            clientName.Title = "Client  " + MainWindow.ImeClient;
+
             NetTcpBinding binding = new NetTcpBinding();
-            string address = "net.tcp://localhost:10010/ClientService";
+            string address = "net.tcp://localhost:"+portnum+"/ClientService";
             List<Alarm> temp = new List<Alarm>();
             using (ClientProxy proxy = new ClientProxy(binding, address))
             {

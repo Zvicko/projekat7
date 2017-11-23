@@ -321,7 +321,7 @@ namespace SubscriberWPF
             SubNameWindow.Title = "Subscriber " + MainWindow.SubName;
 
             NetTcpBinding bindingClient = new NetTcpBinding();
-            string address1 = "net.tcp://localhost:"+MainWindow.Port+"/Client";
+            string address1 = "net.tcp://localhost:"+MainWindow.Port+ "/ClientService";
 
 
             ServiceHost host1 = new ServiceHost(typeof(ClientService));

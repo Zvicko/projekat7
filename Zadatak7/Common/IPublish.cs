@@ -11,5 +11,7 @@ namespace Common
     {
         [OperationContract(IsOneWay =true)]
         void Publish(Topic topic);
+        [OperationContract]
+        bool ShutDown(string pubName,bool flag);
     }
 }

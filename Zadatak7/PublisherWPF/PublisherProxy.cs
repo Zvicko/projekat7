@@ -46,5 +46,20 @@ namespace PublisherWPF
         {
 
         }
+
+        public bool ShutDown(string pubName, bool flag)
+        {
+            try
+            {
+                factory.ShutDown(pubName,flag);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error {e.Message}");
+                return false;
+
+            }
+        }
     }
 }

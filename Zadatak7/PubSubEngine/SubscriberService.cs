@@ -11,7 +11,8 @@ namespace PubSubEngine
 {
     public class SubscriberService : ISubscribe
     {
-        public static Dictionary<Topic, List<string>> mainDic = new Dictionary<Topic,  List<string>>();
+        public static Dictionary<Alarm, List<string>> mainDic = new Dictionary<Alarm, List<string>>();
+        public static object _locck = new object();
 
         public List<Topic> Read()
         {
@@ -19,21 +20,52 @@ namespace PubSubEngine
 
         }
 
-        public void Subscribe(Topic topic,string imeSub)
+        public bool Subscribe(Alarm alarm, string imeSub)
         {
             //bool exit = false;
-           if (!mainDic.ContainsKey(topic))
+
+            foreach (var item in mainDic.Keys)
             {
-                List<string> subs = new List<string>();
+                if (item.Izgenerisan == alarm.Izgenerisan)
+                {
+                    if (!mainDic[item].Contains(imeSub))
+                    {
+                        lock (this)
+                        {
+                            mainDic[item].Add(imeSub);
+                        }
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                   
+                }
+            }
+            List<string> subs = new List<string>();
+            lock (_locck)
+            {
                 subs.Add(imeSub);
-                mainDic.Add(topic, subs);
+                mainDic.Add(alarm, subs);
             }
-            else
+            return true;
+        }
+
+        public List<Alarm> SubscribedAlarms(string imeSub)
+        {
+            List<Alarm> returnList = new List<Alarm>();
+            lock (_locck)
             {
-                mainDic[topic].Add(imeSub);
+                foreach (var item in mainDic.Keys)
+                {
+                    if (mainDic[item].Contains(imeSub))
+                    {
+                        returnList.Add(item);
+                    }
+                }
             }
-           
-            
+            return returnList;
         }
     }
 }

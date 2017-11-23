@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Resources;
 using System.ServiceModel;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,6 +31,7 @@ namespace PublisherWPF
        
         Topic topic = new Topic();
         PublisherProxy proxy = null;
+        Thread thread = null;
 
         public event PropertyChangedEventHandler PropertyChanged;
       
@@ -41,6 +43,10 @@ namespace PublisherWPF
             string address = "net.tcp://localhost:9999/PublisherService";
 
             proxy = new PublisherProxy(binding, address);
+
+            thread = new Thread(new ThreadStart(this.worker_DoWork));
+            thread.IsBackground = true;
+            thread.Start();
         }
       
 
@@ -62,7 +68,7 @@ namespace PublisherWPF
                     ResourceManager rm = new ResourceManager("Poruke", Assembly.GetExecutingAssembly());
                     topic.Al.Rizik = temp;
                     topic.Al.Izgenerisan = DateTime.Now;
-
+                    topic.Al.ImePub = MainWindow.pubname;
                     topic.Al.Poruka = Poruke.ResourceManager.GetString(poruka);
                     topic.NazivPub = MainWindow.pubname;
                     proxy.Publish(topic);
@@ -92,12 +98,32 @@ namespace PublisherWPF
             else
                 return null;
         }
+
+        private void worker_DoWork()
+        {
+            while (true)
+            {
+                
+
+                Thread.Sleep(6000);
+            }
+        }
         protected virtual void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
+        }
+
+        private void closeClick(object sender, CancelEventArgs e)
+        {
+            bool result = proxy.ShutDown(MainWindow.pubname,true);
+            if (result)
+            {
+                return;
+            }
+
         }
     }
 }

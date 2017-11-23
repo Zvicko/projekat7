@@ -30,15 +30,17 @@ namespace SubscriberWPF
             factory = this.CreateChannel();
         }
 
-        public void Subscribe(Topic topic,string imeSUb)
+        public bool Subscribe(Alarm alarm,string imeSUb)
         {
             try
             {
-                factory.Subscribe(topic, imeSUb);
+                factory.Subscribe(alarm, imeSUb);
+                return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Error: {e.Message}");
+                return false;
             }
         }
         public List<Topic> Read()
@@ -67,6 +69,21 @@ namespace SubscriberWPF
         public void Dispose()
         {
 
+        }
+
+        public List<Alarm> SubscribedAlarms(string imeSub)
+        {
+            List<Alarm> list = new List<Alarm>();
+            try
+            {
+                list = factory.SubscribedAlarms(imeSub);
+                return list;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+                return list;
+            }
         }
     }
 }

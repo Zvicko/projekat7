@@ -12,6 +12,7 @@ namespace Common
         private DateTime izgenerisan;
         private string poruka;
         private int rizik;
+        private string imePub;
       
         public DateTime Izgenerisan
         {
@@ -30,6 +31,15 @@ namespace Common
         {
              get { return rizik; }
              set { rizik = value; }
+        }
+
+        public string ImePub
+        {
+            get { return imePub; }
+            set
+            {
+                imePub = value;
+            }
         }
     }
 }

@@ -27,6 +27,12 @@ namespace SubscriberWPF
             set;
         }
 
+        public static ObservableCollection<Alarm> Subs
+        {
+            get;
+            set;
+        }
+
         public static ObservableCollection<Alarm> pretplaceni
         {
             get;
@@ -96,27 +102,31 @@ namespace SubscriberWPF
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
-      
+
 
         private static SubscriberProxy proxy = null; // mozda ne mora da bude static
         private readonly BackgroundWorker worker = new BackgroundWorker();
         public static string SubName;
         public static int Port;
         Thread thread = null;
+        Thread threadSubscribed = null;
         string s = string.Empty;
         //static int pom = 0;
         public MainWindow()
         {
-          
+
             InitializeComponent();
             DataContext = this;
             StartUp = isStart.Yes;
             object _lock = new object();
             object _lock1 = new object();
+            object _lockSub = new object();
             al = new ObservableCollection<Alarm>();
             pretplaceni = new ObservableCollection<Alarm>();
+            Subs = new ObservableCollection<Alarm>();
             BindingOperations.EnableCollectionSynchronization(al, _lock);
             BindingOperations.EnableCollectionSynchronization(pretplaceni, _lock1);
+            BindingOperations.EnableCollectionSynchronization(Subs, _lockSub);
             //al = new ObservableCollection<Alarm>();
             tempTop = new List<Topic>();
             string[] rizici = { "nema rizika", "niski rizik", "srednji rizik", "visoki rizik" };
@@ -134,6 +144,25 @@ namespace SubscriberWPF
             thread.IsBackground = true;
             thread.Start();
 
+            threadSubscribed = new Thread(new ThreadStart(this.subs_work));
+            threadSubscribed.IsBackground = true;
+            threadSubscribed.Start();
+
+        }
+
+        private void subs_work()
+        {
+            while(true)
+            {
+                Subs.Clear();
+                List<Alarm> pom = proxy.SubscribedAlarms(MainWindow.SubName);
+                foreach (var item in pom)
+                {
+                    Subs.Add(item);
+                }
+
+                Thread.Sleep(7000);
+            }
         }
 
         private void comboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -162,13 +191,14 @@ namespace SubscriberWPF
                 var items = al.ToList();
                 //al.Clear();
 
-               tempTop = proxy.Read();
-
+                tempTop = proxy.Read();
+                pretplaceni.Clear();
+                al.Clear();
                 foreach (Topic t in tempTop)
                 {
                     var obj = al.Where(a => a.Izgenerisan == t.Al.Izgenerisan).FirstOrDefault();
-                   
-                    
+
+
                     if (obj == null)
                         al.Add(t.Al);
                     if (s == "nema rizika" && t.Al.Rizik > 0 && t.Al.Rizik < 11 && obj == null)
@@ -181,7 +211,7 @@ namespace SubscriberWPF
                         pretplaceni.Add(t.Al);
 
                 }
-                
+
                 Thread.Sleep(6000);
             }
         }
@@ -192,12 +222,23 @@ namespace SubscriberWPF
             this.Close();
         }
 
-      
+
         private void dugmePretplatiSe_Click(object sender, RoutedEventArgs e)
         {
             if (dataGrid2.SelectedItem != null)
             {
                 Alarm a = dataGrid2.SelectedItem as Alarm;
+                bool result = proxy.Subscribe(a, MainWindow.SubName);
+
+                if (result)
+                {
+                    Subs.Add(a);
+                    MessageBox.Show("Uspesno ste se predplatili na izabran alarm");
+                }
+                else
+                {
+                    MessageBox.Show("Vec ste subscribovani na dati alarm");
+                }
                 if (!File.Exists(@"..\xmlBaza " + comboBox.SelectedItem.ToString() + " .xml"))
                 {
                     XmlTextWriter txtwriter = new XmlTextWriter(@"..\xmlBaza " + comboBox.SelectedItem.ToString() + " .xml", System.Text.Encoding.UTF8);
@@ -228,7 +269,7 @@ namespace SubscriberWPF
                 }
                 else
                 {
-                    var xmlDoc = XDocument.Load(@"..\xmlBaza "+ comboBox.SelectedItem.ToString() +" .xml");
+                    var xmlDoc = XDocument.Load(@"..\xmlBaza " + comboBox.SelectedItem.ToString() + " .xml");
                     var parentElement = new XElement("Alarm");
                     var generisanElement = new XElement("Genersan", a.Izgenerisan.ToString());
                     var porukaElement = new XElement("Poruka", a.Poruka);
@@ -242,7 +283,7 @@ namespace SubscriberWPF
 
                     rootElement?.Add(parentElement);
 
-                    xmlDoc.Save(@"..\xmlBaza " + comboBox.SelectedItem.ToString() +" .xml");
+                    xmlDoc.Save(@"..\xmlBaza " + comboBox.SelectedItem.ToString() + " .xml");
 
                 }
             }
@@ -260,17 +301,17 @@ namespace SubscriberWPF
             MainGrid.Visibility = Visibility.Visible;
             SubNameWindow.Title = "Subscriber" + MainWindow.SubName;
 
-            //NetTcpBinding bindingClient = new NetTcpBinding();
-            //string address1 = "net.tcp://localhost:5200/Client";
+            NetTcpBinding bindingClient = new NetTcpBinding();
+            string address1 = "net.tcp://localhost:"+MainWindow.Port+"/Client";
 
 
-            //ServiceHost host1 = new ServiceHost(typeof(ClientService));
-            //host1.AddServiceEndpoint(typeof(IClient), bindingClient, address1);
+            ServiceHost host1 = new ServiceHost(typeof(ClientService));
+            host1.AddServiceEndpoint(typeof(IClient), bindingClient, address1);
 
-            //host1.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
-            //host1.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+            host1.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            host1.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
 
-            //host1.Open();
+            host1.Open();
 
 
         }

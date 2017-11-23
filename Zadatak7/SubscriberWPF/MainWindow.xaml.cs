@@ -330,7 +330,14 @@ namespace SubscriberWPF
             host1.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
             host1.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
 
-            host1.Open();
+            try
+            {
+                host1.Open();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"{e.Message}");
+            }
 
 
         }

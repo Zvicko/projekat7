@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -21,17 +23,64 @@ namespace ClientWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        public static ObservableCollection<Alarm> Prikazi
+        {
+            get;
+            set;
+        }
+
+
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
+            Prikazi = new ObservableCollection<Alarm>();
+            object _lock = new object();
 
+            BindingOperations.EnableCollectionSynchronization(Prikazi, _lock);
             NetTcpBinding binding = new NetTcpBinding();
-            string address = "net.tcp://localhost:5656/SubscriberService";
-
+            string address = "net.tcp://localhost:10010/ClientService";
+            List<Alarm> temp = new List<Alarm>();
             using (ClientProxy proxy = new ClientProxy(binding, address))
             {
-                proxy.ShowAllAlarms();
+                temp = proxy.ShowAllAlarms();
+
+                foreach (Alarm a in temp)
+                {
+                    Prikazi.Add(a);
+                }
+
             }
+        }
+
+        private void Obradi_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGrid.SelectedItem != null)
+            {
+                Alarm ala = dataGrid.SelectedItem as Alarm;
+                if (ala.Poruka == "Nema rizika.")
+                {
+
+                }
+                else if (ala.Poruka == "Rizik je nizak.")
+                {
+
+                }
+                else if (ala.Poruka == "Rizik je srednji.")
+                {
+
+                }
+                else if (ala.Poruka == "Rizik je visok.")
+                {
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Morate odabrati alarm!", "", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
     }
 }

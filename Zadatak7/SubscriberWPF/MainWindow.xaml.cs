@@ -141,7 +141,7 @@ namespace SubscriberWPF
             NetTcpBinding bindingSysLog = new NetTcpBinding();
             //string addressSyslog = "net.tcp://localhost:8477/SysLog";
 
-            subCert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, Formatter.ParseName(WindowsIdentity.GetCurrent().Name));
+            subCert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "SubscriberSign");
 
             comboBox.ItemsSource = rizici;
             proxy = new SubscriberProxy(binding, address);
@@ -202,8 +202,7 @@ namespace SubscriberWPF
                 pretplaceni.Clear();
                 al.Clear();
 
-              // tempTop = proxy.Read(subCert);
-
+                //tempTop = proxy.Read(subCert);
 
                 foreach (Topic t in tempTop)
                 {

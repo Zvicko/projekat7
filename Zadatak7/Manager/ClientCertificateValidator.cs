@@ -20,19 +20,19 @@ namespace Manager
         {
             X509Certificate2 cert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, Formatter.ParseName(WindowsIdentity.GetCurrent().Name));
 
-            if (certificate.Subject != cert.Issuer)
+            if (certificate.Issuer != cert.Issuer)
             {
                 Logger.AnnotateEvent("Authentication failed. Certificate is not self signed.\n");
 
                 throw new Exception("Certificate is not self signed.\n");
             }
-            else if (certificate.SubjectName != cert.SubjectName)
+            /*else if (certificate.SubjectName != cert.SubjectName)
             {
                 Logger.AnnotateEvent("Authentication failed. Invalid common name.\n");
 
                 throw new Exception("Invaid common name.\n");
-            }
-            else if (certificate.NotAfter <= DateTime.Now)
+            }*/
+            else if (cert.NotAfter <= DateTime.Now)
             {
                 Logger.AnnotateEvent("Authentication failed. Certificate has expired.\n");
 

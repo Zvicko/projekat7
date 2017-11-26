@@ -46,7 +46,7 @@ namespace PublisherWPF
             NetTcpBinding binding = new NetTcpBinding();
             string address = "net.tcp://localhost:9999/PublisherService";
 
-            pubCert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, Formatter.ParseName(WindowsIdentity.GetCurrent().Name));
+            pubCert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "PublisherSign");
 
             proxy = new PublisherProxy(binding, address);
 
@@ -82,7 +82,7 @@ namespace PublisherWPF
                     topic.NazivPub = MainWindow.pubname;
 
                     proxy.Publish(topic);
-                    //proxy.Publish(topic, pubCert);
+                    //proxy.Publish(topic, pubCert); // Privatni kljuc ovde jos uvek postoji.
 
                     textBoxRizik.Text = "";
                     textBoxTopic.Text = "";
@@ -93,7 +93,6 @@ namespace PublisherWPF
             else
             {
                 labelaTopicRizik.Content = "Uneta je nebrojevna vrednost za rizik!";
-
             }
         }
 

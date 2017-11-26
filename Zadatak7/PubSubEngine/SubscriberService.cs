@@ -16,30 +16,30 @@ namespace PubSubEngine
 
         public static Dictionary<Alarm, List<string>> mainDic = new Dictionary<Alarm, List<string>>();
         public static object _locck = new object();
-
-        private static int itemCounter = 0;
-
+        //private static int itemCounter = 0;
 
         public List<Topic> Read()
         {
             return PublisherService.ListTopic;
         }
 
-
-
-        public List<Topic> Read(X509Certificate2 certificate)
+        /*public List<Topic> Read(X509Certificate2 certificate)
         {
             List<Topic> topics = PublisherService.ListTopic;
 
-            Topic topic = topics[itemCounter];
+            if (topics.Count > 0)
+            {
+                Topic topic = topics[itemCounter];
 
-            bool verified = DigitalSignature.Verify(topic.Al.Poruka, "SHA1", topic.Potpis, certificate);
+                bool verified = DigitalSignature.Verify(topic.Al.Poruka, "SHA1", topic.Potpis, certificate);
+
+                itemCounter++;
+            }
 
             return topics;
-        }
+        }*/
 
         public bool Subscribe(Alarm alarm, string imeSub)
-
         {
             //bool exit = false;
 
@@ -53,6 +53,7 @@ namespace PubSubEngine
                         {
                             mainDic[item].Add(imeSub);
                         }
+
                         return true;
                     }
                     else
@@ -62,21 +63,24 @@ namespace PubSubEngine
 
                 }
             }
+
             List<string> subs = new List<string>();
+
             lock (_locck)
             {
                 subs.Add(imeSub);
                 mainDic.Add(alarm, subs);
             }
+
             return true;
         }
 
         public List<Alarm> SubscribedAlarms(string imeSub)
         {
             List<Alarm> returnList = new List<Alarm>();
+
             lock (_locck)
             {
-
                 foreach (var item in mainDic.Keys)
                 {
                     if (mainDic[item].Contains(imeSub))
@@ -85,10 +89,9 @@ namespace PubSubEngine
                     }
                 }
             }
+
             return returnList;
-
         }
-
     }
 }
 

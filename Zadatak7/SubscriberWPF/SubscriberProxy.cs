@@ -20,12 +20,17 @@ namespace SubscriberWPF
         public SubscriberProxy(NetTcpBinding binding, string address) : base(binding, address)
         {
             string clientCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+            X509Certificate2 serverCert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "PubSubService");
 
             this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
             this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertificateValidator();
             this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
             this.Credentials.ClientCertificate.Certificate = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, clientCertCN);
+
+            ClientCertificateValidator ccv = new ClientCertificateValidator();
+
+            //ccv.Validate(serverCert);
 
             factory = this.CreateChannel();
         }
@@ -59,12 +64,12 @@ namespace SubscriberWPF
 
             //list.ForEach(t => Console.WriteLine($"{t.NazivTopica}\n{t.Al.Izgenerisan}\n{t.Al.Poruka}\n{t.Al.Rizik}"));
 
-            /* foreach (Topic t in list)
-             {
-                 if(!MainWindow.al.Contains(t.Al))
-                     MainWindow.al.Add(t.Al);
-             }
-             */
+            foreach (Topic t in list)
+            {
+                if(!MainWindow.al.Contains(t.Al))
+                    MainWindow.al.Add(t.Al);
+            }
+             
             return list;
 
         }

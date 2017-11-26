@@ -29,12 +29,23 @@ namespace PubSubEngine
             //ListTopic.ForEach(t => Console.WriteLine($"{t.NazivTopica}\n{t.Al.Izgenerisan}\n{t.Al.Poruka}\n{t.Al.Rizik}\n"));
         }
 
+        /*public void Publish(Topic topic, X509Certificate2 certificate)
+        {
+            string poruka = topic.Al.Poruka;
+
+            byte[] potpis = DigitalSignature.Create(poruka, "SHA1", certificate);
+
+            topic.Potpis = potpis;
+
+            ListTopic.Add(topic);
+        }*/
 
         public bool ShutDown(string pubName, bool flag)
         {
             lock (SubscriberService._locck)
             {
                 List<Alarm> alarms = new List<Alarm>();
+
                 foreach (var item in SubscriberService.mainDic.Keys)
                 {
                     if (item.ImePub.Equals(pubName))
@@ -48,6 +59,7 @@ namespace PubSubEngine
                 }
 
             }
+
             foreach (var item in ListTopic)
             {
                 if (item.NazivPub == pubName)
@@ -56,23 +68,10 @@ namespace PubSubEngine
                     break;
                 }
             }
+
             ListTopic.RemoveAll(x => x.NazivPub == pubName);
 
-
             return true;
-
-
         }
-        public void Publish(Topic topic, X509Certificate2 certificate)
-        {
-            string poruka = topic.Al.Poruka;
-
-            byte[] potpis = DigitalSignature.Create(poruka, "SHA1", certificate);
-
-            topic.Potpis = potpis;
-
-            ListTopic.Add(topic);
-        }
-
     }
 }

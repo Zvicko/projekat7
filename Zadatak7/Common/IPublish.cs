@@ -11,13 +11,16 @@ namespace Common
     [ServiceContract]
     public interface IPublish
     {
-        [OperationContract(IsOneWay = true)]
-        void Publish(Topic topic);
+       // [OperationContract(IsOneWay = true)]
+        //void Publish(Topic topic);
 
         [OperationContract]
         bool ShutDown(string pubName,bool flag);
 
-        /*([OperationContract(IsOneWay = true)]
-        void Publish(Topic topic, X509Certificate2 certificate);*/
+        /*[OperationContract(IsOneWay = true)]
+        void Publish(Topic topic, X509Certificate2 certificate);
+        */
+        [OperationContract(IsOneWay = true)]
+        void Publish(Topic topic, byte[] sign);
     }
 }

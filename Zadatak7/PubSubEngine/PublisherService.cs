@@ -38,7 +38,19 @@ namespace PubSubEngine
             topic.Potpis = potpis;
 
             ListTopic.Add(topic);
-        }*/
+        }
+        */
+
+        public void Publish(Topic topic, byte[] sign)
+        {
+            X509Certificate2 clientCertificate = Manager.CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "PublisherSign");
+
+            if (DigitalSignature.Verify(topic.Al.Poruka, "SHA1", sign,clientCertificate))
+            {
+                Console.WriteLine("Valid.");
+            }
+            ListTopic.Add(topic);
+        }
 
         public bool ShutDown(string pubName, bool flag)
         {

@@ -31,7 +31,7 @@ namespace PublisherWPF
     {
         public static string pubname = "";
         public static int timeToSend;
-        public X509Certificate2 pubCert;
+        public static X509Certificate2 pubCert = null;
        
         Topic topic = new Topic();
         PublisherProxy proxy = null;
@@ -44,11 +44,13 @@ namespace PublisherWPF
             InitializeComponent();
 
             NetTcpBinding binding = new NetTcpBinding();
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
             string address = "net.tcp://localhost:9999/PublisherService";
+            EndpointIdentity identity = EndpointIdentity.CreateDnsIdentity("Server");
+            EndpointAddress endpointAddress = new EndpointAddress(new Uri(address), identity);
+            pubCert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "Publisher");
 
-            pubCert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "PublisherSign");
-
-            proxy = new PublisherProxy(binding, address);
+            proxy = new PublisherProxy(binding, endpointAddress);
 
             thread = new Thread(new ThreadStart(this.worker_DoWork));
             thread.IsBackground = true;
@@ -80,9 +82,11 @@ namespace PublisherWPF
 
                     topic.Al.Poruka = Poruke.ResourceManager.GetString(poruka);
                     topic.NazivPub = MainWindow.pubname;
-
-                    proxy.Publish(topic);
-                    //proxy.Publish(topic, pubCert); // Privatni kljuc ovde jos uvek postoji.
+                    string potpis = "PublisherSign";
+                    X509Certificate2 signCert = Manager.CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, potpis);
+                    byte[] sign = DigitalSignature.Create(topic.Al.Poruka, "SHA1", signCert);
+                    //proxy.Publish(topic);
+                    proxy.Publish(topic, sign); // Privatni kljuc ovde jos uvek postoji.
 
                     textBoxRizik.Text = "";
                     textBoxTopic.Text = "";

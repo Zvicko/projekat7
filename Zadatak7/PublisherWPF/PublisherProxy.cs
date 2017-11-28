@@ -16,15 +16,15 @@ namespace PublisherWPF
     public class PublisherProxy : ChannelFactory<IPublish>, IPublish, IDisposable
     {
         IPublish factory;
-        public PublisherProxy(NetTcpBinding binding, string address) : base(binding, address)
+        public PublisherProxy(NetTcpBinding binding, EndpointAddress address) : base(binding, address)
         {
             string clientCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
-            X509Certificate2 serverCert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "PubSubService");
+            X509Certificate2 serverCert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "Server");
 
             this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
             this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertificateValidator();
             this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
-
+            //clientCertCN = "Publisher";
             this.Credentials.ClientCertificate.Certificate = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, clientCertCN);
 
             ClientCertificateValidator ccv = new ClientCertificateValidator();
@@ -33,7 +33,7 @@ namespace PublisherWPF
 
             factory = this.CreateChannel();
         }
-
+        /*
         public void Publish(Topic topic)
         {
             try
@@ -45,8 +45,9 @@ namespace PublisherWPF
                 Console.WriteLine($"Error {e.Message}");
             }
         }
-
-        /*public void Publish(Topic topic, X509Certificate2 certificate)
+        */
+        /*
+        public void Publish(Topic topic, X509Certificate2 certificate)
         {
             try
             {
@@ -58,7 +59,23 @@ namespace PublisherWPF
             {
                 Console.WriteLine($"Error {e.Message}");
             }
-        }*/
+        }
+        */
+
+        public void Publish(Topic topic, byte[] sign)
+        {
+            try
+            {
+                factory.Publish(topic, sign);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error : {e.Message}");
+            }
+        }
+
+
+
 
         public void Dispose()
         {

@@ -48,8 +48,9 @@ namespace PubSubEngine
             if (DigitalSignature.Verify(topic.Al.Poruka, "SHA1", sign,clientCertificate))
             {
                 Console.WriteLine("Valid.");
+                ListTopic.Add(topic);
             }
-            ListTopic.Add(topic);
+           
         }
 
         public bool ShutDown(string pubName, bool flag)

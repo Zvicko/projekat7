@@ -14,7 +14,6 @@ using System.Xml.Linq;
 using System.Windows.Input;
 using System;
 using System.Security.Cryptography.X509Certificates;
-using System.Security.Principal;
 using Manager;
 
 namespace SubscriberWPF

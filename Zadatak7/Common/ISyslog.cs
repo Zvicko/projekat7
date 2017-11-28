@@ -11,6 +11,6 @@ namespace Common
     public interface ISyslog
     {
         [OperationContract]
-        void EnterLog();
+        void EnterLog(SyslogMessage message);
     }
 }

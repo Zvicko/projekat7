@@ -23,7 +23,8 @@ namespace ClientWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-
+       public NetTcpBinding binding = new NetTcpBinding();
+        public string address = "";
         public static ObservableCollection<Alarm> Prikazi
         {
             get;
@@ -52,7 +53,7 @@ namespace ClientWPF
 
         private ICommand loginCommandSub;
 
-     
+
         public ICommand StartCommandClient
         {
             get
@@ -61,7 +62,7 @@ namespace ClientWPF
             }
         }
 
-       
+
 
         public MainWindow()
         {
@@ -70,7 +71,7 @@ namespace ClientWPF
             Prikazi = new ObservableCollection<Alarm>();
             object _lock = new object();
             BindingOperations.EnableCollectionSynchronization(Prikazi, _lock);
-            
+
         }
 
         private void startComm()
@@ -80,9 +81,7 @@ namespace ClientWPF
             GridStart.Visibility = Visibility.Collapsed;
             mainGrid.Visibility = Visibility.Visible;
             clientName.Title = "Client  " + MainWindow.ImeClient;
-
-            NetTcpBinding binding = new NetTcpBinding();
-            string address = "net.tcp://localhost:"+portnum+"/ClientService";
+            address = "net.tcp://localhost:" + portnum + "/ClientService";
             List<Alarm> temp = new List<Alarm>();
             using (ClientProxy proxy = new ClientProxy(binding, address))
             {
@@ -100,28 +99,37 @@ namespace ClientWPF
         {
             if (dataGrid.SelectedItem != null)
             {
-                Alarm ala = dataGrid.SelectedItem as Alarm;
-                if (ala.Poruka == "Nema rizika.")
+                using (ClientProxy proxy = new ClientProxy(binding, address))
                 {
-                    var s = new Obrada(ala.Poruka);
-                    s.ShowDialog();
-                }
-                else if (ala.Poruka == "Rizik je nizak.")
-                {
-                    var s = new Obrada(ala.Poruka);
-                    s.ShowDialog();
 
-                }
-                else if (ala.Poruka == "Rizik je srednji.")
-                {
-                    var s = new Obrada(ala.Poruka);
-                    s.ShowDialog();
+                    Alarm ala = dataGrid.SelectedItem as Alarm;
+                    if (ala.Poruka == "Nema rizika.")
+                    {
+                        var s = new Obrada(ala.Poruka);
+                        proxy.DoAlarm(ala);
+                        s.ShowDialog();
+                        
+                    }
+                    else if (ala.Poruka == "Rizik je nizak.")
+                    {
+                        var s = new Obrada(ala.Poruka);
+                        proxy.DoAlarm(ala);
+                        s.ShowDialog();
 
-                }
-                else if (ala.Poruka == "Rizik je visok.")
-                {
-                    var s = new Obrada(ala.Poruka);
-                    s.ShowDialog();
+                    }
+                    else if (ala.Poruka == "Rizik je srednji.")
+                    {
+                        var s = new Obrada(ala.Poruka);
+                        proxy.DoAlarm(ala);
+                        s.ShowDialog();
+
+                    }
+                    else if (ala.Poruka == "Rizik je visok.")
+                    {
+                        var s = new Obrada(ala.Poruka);
+                        proxy.DoAlarm(ala);
+                        s.ShowDialog();
+                    }
                 }
             }
             else

@@ -9,9 +9,10 @@ namespace SysLog
 {
     public class SubService : ISyslog
     {
-        public void EnterLog()
+
+        public void EnterLog(SyslogMessage message)
         {
-            throw new NotImplementedException();
+            SysLogWriter.WriteSysLog(message);
         }
     }
 }

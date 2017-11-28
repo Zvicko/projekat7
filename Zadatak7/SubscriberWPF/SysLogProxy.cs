@@ -1,25 +1,29 @@
 ﻿using Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SubscriberWPF
 {
     public class SysLogProxy : ChannelFactory<ISyslog>, ISyslog, IDisposable
     {
         ISyslog factory;
+        public static string address1 = "net.tcp://localhost:8477/SysLog";
 
         public SysLogProxy(NetTcpBinding binding, string address) : base(binding, address)
         {
             factory = this.CreateChannel();
         }
 
-        public void EnterLog()
+        public void EnterLog(SyslogMessage message)
         {
-            throw new NotImplementedException();
+            try
+            {
+                factory.EnterLog(message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
         }
     }
 }

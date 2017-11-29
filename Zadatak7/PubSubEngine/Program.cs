@@ -17,9 +17,11 @@ namespace PubSubEngine
     {
         static void Main(string[] args)
         {
-            NetTcpBinding binding = new NetTcpBinding();
-            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
-            string address1 = "net.tcp://localhost:9999/PublisherService";
+            NetTcpBinding binding1 = new NetTcpBinding();
+            NetTcpBinding binding2 = new NetTcpBinding();
+            binding1.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+            binding2.Security.Mode = SecurityMode.None;
+            string address1 = "net.tcp://192.168.1.107:9999/PublisherService";
             string address2 = "net.tcp://localhost:1000/SubscriberService";
 
             // Common name sertifikata koji koristi server.
@@ -29,8 +31,8 @@ namespace PubSubEngine
 
             ServiceHost host1 = new ServiceHost(typeof(PublisherService));
             ServiceHost host2 = new ServiceHost(typeof(SubscriberService));
-            host1.AddServiceEndpoint(typeof(IPublish), binding, address1);
-            host2.AddServiceEndpoint(typeof(ISubscribe), binding, address2);
+            host1.AddServiceEndpoint(typeof(IPublish), binding1, address1);
+            host2.AddServiceEndpoint(typeof(ISubscribe), binding2, address2);
 
             host1.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
             host1.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertificateValidator();
@@ -46,7 +48,7 @@ namespace PubSubEngine
             try
             {
                 host1.Open();
-               // host2.Open();
+                host2.Open();
 
                 Console.WriteLine("PubSubEngine service has been started.\n");
                 Console.WriteLine("Press ENTER to stop the service...");
@@ -64,7 +66,7 @@ namespace PubSubEngine
             finally
             {
                 host1.Close();
-               // host2.Close();
+                host2.Close();
             }
         }
     }

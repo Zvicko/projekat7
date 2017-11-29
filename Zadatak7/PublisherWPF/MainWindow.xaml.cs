@@ -32,7 +32,7 @@ namespace PublisherWPF
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
-            string address = "net.tcp://localhost:9999/PublisherService";
+            string address = "net.tcp://192.168.1.107:9999/PublisherService";
             EndpointIdentity identity = EndpointIdentity.CreateDnsIdentity("Server");
             EndpointAddress endpointAddress = new EndpointAddress(new Uri(address), identity);
             pubCert = CertificateManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, "Publisher");
@@ -107,7 +107,7 @@ namespace PublisherWPF
             {
                 
 
-                Thread.Sleep(6000);
+                Thread.Sleep(timeToSend*1000);
             }
         }
         protected virtual void OnPropertyChanged(string name)

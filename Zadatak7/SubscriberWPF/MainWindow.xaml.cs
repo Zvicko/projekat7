@@ -135,6 +135,7 @@ namespace SubscriberWPF
             tempTop = new List<Topic>();
             string[] rizici = { "nema rizika", "niski rizik", "srednji rizik", "visoki rizik" };
             NetTcpBinding binding = new NetTcpBinding();
+            binding.Security.Mode = SecurityMode.None;
             string address = "net.tcp://localhost:1000/SubscriberService";
 
             NetTcpBinding bindingSysLog = new NetTcpBinding();
